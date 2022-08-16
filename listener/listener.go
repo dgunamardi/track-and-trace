@@ -109,20 +109,6 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 		panic(fmt.Errorf("failed to create event client: %v", err))
 	}
 
-	// connect to mongo DB
-	dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
-	if err != nil {
-		panic(fmt.Errorf("failed to create client: %v", err))
-	}
-	defer func() {
-		if err = dbClient.Disconnect(ctx.TODO()); err != nil {
-			panic(err)
-		}
-	}()
-
-	// get mongo collection
-	coll := dbClient.Database("track_trace").Collection("event")
-
 	// register events
 	eventRegister, blockEvents, err := evClient.RegisterBlockEvent()
 	defer evClient.Unregister(eventRegister)
@@ -132,14 +118,44 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 	for events := range blockEvents {
 		parsedBlock.Init(events.Block)
 
-		doc, err := bson.Marshal(parsedBlock)
+		// connect to mongo DB
+		dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
 		if err != nil {
-			panic(fmt.Errorf("failed to marshall to bson: %v", err))
+			panic(fmt.Errorf("failed to create client: %v", err))
 		}
+		defer func() {
+			if err = dbClient.Disconnect(ctx.TODO()); err != nil {
+				panic(err)
+			}
+		}()
 
-		result, err := coll.InsertOne(ctx.TODO(), doc)
+		// get collection
+		coll := dbClient.Database("track_trace").Collection("event")
 
-		fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
+		// unwrap
+		envelopes := parsedBlock.BlockData.Envelopes
+		for _, envelope := range envelopes {
+			txActions := envelope.Payload.Transaction.TransactionActions
+			for _, txAction := range txActions {
+				nsRWSets := txAction.ChaincodeActionPayload.ChaincodeEndorsedAction.ProposalResponsePayload.Extension.Results.NsReadWriteSets
+				for _, nsRWSet := range nsRWSets {
+					kvWrites := nsRWSet.RWSet.KVWrites
+					for _, kvWrite := range kvWrites {
+						doc, err := bson.Marshal(kvWrite.Value)
+						if err != nil {
+							panic(fmt.Errorf("failed to marshall to bson: %v", err))
+						}
+
+						result, err := coll.InsertOne(ctx.TODO(), doc)
+						if err != nil {
+							panic(fmt.Errorf("failed to insert document to collection: %v", err))
+						}
+
+						fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
+					}
+				}
+			}
+		}
 
 	}
 }
