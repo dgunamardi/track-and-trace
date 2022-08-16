@@ -37,7 +37,7 @@ type TransactionData struct {
 	eventId      string
 	Type         int32
 	GTIN         string
-	SetialNumber string
+	SerialNumber string
 	EventTime    string
 	EventLoc     string
 	CompanyName  string
