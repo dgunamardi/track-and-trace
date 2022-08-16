@@ -161,8 +161,6 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 						}
 
 						if docBson.Type != 0 {
-							fmt.Println(docBson)
-
 							result, err := coll.InsertOne(ctx.TODO(), docBson)
 							if err != nil {
 								panic(fmt.Errorf("failed to insert document to collection: %v", err))
