@@ -32,6 +32,10 @@ type DBVars struct {
 	dbClient *mongo.Client
 }
 
+type KVWrite struct {
+	Value []byte
+}
+
 var (
 	listenArgs = ListenArgs{
 		SeekType:   seek.Newest,
@@ -141,7 +145,9 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 				for _, nsRWSet := range nsRWSets {
 					kvWrites := nsRWSet.RWSet.KVWrites
 					for _, kvWrite := range kvWrites {
-						doc, err := bson.Marshal(kvWrite.Value)
+						doc, err := bson.Marshal(KVWrite{
+							Value: kvWrite.Value,
+						})
 						if err != nil {
 							panic(fmt.Errorf("failed to marshall to bson: %v", err))
 						}
