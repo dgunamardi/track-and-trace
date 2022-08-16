@@ -152,20 +152,28 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 				for _, nsRWSet := range nsRWSets {
 					kvWrites := nsRWSet.RWSet.KVWrites
 
-					docBson := &TransactionData{}
-					err = bson.UnmarshalExtJSON(kvWrites[1].Value, true, docBson)
-					if err != nil {
-						panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
+					for _, kvWrite := range kvWrites {
+
+						docBson := &TransactionData{}
+						err = bson.UnmarshalExtJSON(kvWrite.Value, true, docBson)
+						if err != nil {
+							panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
+						}
+
+						if docBson.Type != 0 {
+							fmt.Println(docBson)
+
+							result, err := coll.InsertOne(ctx.TODO(), docBson)
+							if err != nil {
+								panic(fmt.Errorf("failed to insert document to collection: %v", err))
+							}
+
+							fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
+
+						}
+
 					}
 
-					//fmt.Println(docBson)
-
-					result, err := coll.InsertOne(ctx.TODO(), docBson)
-					if err != nil {
-						panic(fmt.Errorf("failed to insert document to collection: %v", err))
-					}
-
-					fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
 				}
 			}
 		}
