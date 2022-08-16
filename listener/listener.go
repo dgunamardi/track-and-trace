@@ -17,6 +17,7 @@ import (
 
 	eventClient "github.com/hyperledger/fabric-sdk-go/pkg/client/event"
 
+	//	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -32,8 +33,14 @@ type DBVars struct {
 	dbClient *mongo.Client
 }
 
-type KVWrite struct {
-	Value string
+type TransactionData struct {
+	eventId      string
+	Type         int32
+	GTIN         string
+	SetialNumber string
+	EventTime    string
+	EventLoc     string
+	CompanyName  string
 }
 
 var (
@@ -145,13 +152,25 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 				for _, nsRWSet := range nsRWSets {
 					kvWrites := nsRWSet.RWSet.KVWrites
 					for _, kvWrite := range kvWrites {
+						/*
+							docJson := &TransactionData{}
+							err := json.Unmarshal(kvWrite.Value, docJson)
+							if err != nil {
+								panic(fmt.Errorf("failed to unmarshal to json: %v", err))
+							}
 
-						doc, err := bson.Marshal(kvWrite)
+							fmt.Println(docJson)
+						*/
+
+						docBson := &TransactionData{}
+						err = bson.UnmarshalExtJSON(kvWrite.Value, true, docBson)
 						if err != nil {
-							panic(fmt.Errorf("failed to marshall to bson: %v", err))
+							panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
 						}
 
-						result, err := coll.InsertOne(ctx.TODO(), doc)
+						//fmt.Println(docBson)
+
+						result, err := coll.InsertOne(ctx.TODO(), docBson)
 						if err != nil {
 							panic(fmt.Errorf("failed to insert document to collection: %v", err))
 						}
