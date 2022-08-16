@@ -82,7 +82,8 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 	}
 
 	switch args[0] {
-	case "insertData":
+	case "submitTransaction":
+		SubmitTranscation(client)
 	case "getOwnerCredit":
 		GetOwnerCredit(client, args[1])
 
@@ -91,7 +92,41 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 	}
 }
 
+func SubmitTranscation(client *clientChannel.Client) {
+	// replace with something later
+	stringArgs := []string{
+		"912edf2e-933d-4793-9ba0-2077c57070aq",
+		"912edf2e-933d-4793-9ba0-2077c57070aq",
+		"1043022868954",
+		"42547cba-a4aa-4758-812f-a3699489c1c4",
+		"1",
+		"69700806964203",
+		"210UDXYXNFEKJAIWFVQMW",
+		"2022-Aug-09T15:21:40 +0000",
+		"-8.1971482,114.4440049",
+		"Bali",
+		"Bali_factory_2",
+	}
+
+	var byteArgs [][]byte
+
+	for _, stringArg := range stringArgs {
+		byteArgs = append(byteArgs, []byte(stringArg))
+	}
+
+	response, err := client.Execute(clientChannel.Request{
+		ChaincodeID: cfg.CVars.ChaincodeId,
+		Fcn:         "AddCTEwithAsset",
+		Args:        byteArgs,
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("insert response: %v\n", string(response.Payload))
+}
+
 func GetOwnerCredit(client *clientChannel.Client, ownerId string) {
+	// send to something later
 	if ownerId == "" {
 		panic("ownerId cannot be empty")
 	}
