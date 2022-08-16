@@ -151,32 +151,21 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 				nsRWSets := txAction.ChaincodeActionPayload.ChaincodeEndorsedAction.ProposalResponsePayload.Extension.Results.NsReadWriteSets
 				for _, nsRWSet := range nsRWSets {
 					kvWrites := nsRWSet.RWSet.KVWrites
-					for _, kvWrite := range kvWrites {
-						/*
-							docJson := &TransactionData{}
-							err := json.Unmarshal(kvWrite.Value, docJson)
-							if err != nil {
-								panic(fmt.Errorf("failed to unmarshal to json: %v", err))
-							}
 
-							fmt.Println(docJson)
-						*/
-
-						docBson := &TransactionData{}
-						err = bson.UnmarshalExtJSON(kvWrite.Value, true, docBson)
-						if err != nil {
-							panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
-						}
-
-						//fmt.Println(docBson)
-
-						result, err := coll.InsertOne(ctx.TODO(), docBson)
-						if err != nil {
-							panic(fmt.Errorf("failed to insert document to collection: %v", err))
-						}
-
-						fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
+					docBson := &TransactionData{}
+					err = bson.UnmarshalExtJSON(kvWrites[1].Value, true, docBson)
+					if err != nil {
+						panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
 					}
+
+					//fmt.Println(docBson)
+
+					result, err := coll.InsertOne(ctx.TODO(), docBson)
+					if err != nil {
+						panic(fmt.Errorf("failed to insert document to collection: %v", err))
+					}
+
+					fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
 				}
 			}
 		}
