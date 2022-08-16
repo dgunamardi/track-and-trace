@@ -1,6 +1,7 @@
 package main
 
 import (
+	ctx "context"
 	"fmt"
 	"os"
 	"strconv"
@@ -15,11 +16,20 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 
 	eventClient "github.com/hyperledger/fabric-sdk-go/pkg/client/event"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type ListenArgs struct {
 	SeekType   seek.Type
 	StartBlock uint64
+}
+
+type DBVars struct {
+	URI      string
+	dbClient *mongo.Client
 }
 
 var (
@@ -29,6 +39,10 @@ var (
 	}
 
 	parsedBlock parser.Block
+
+	dbVars = DBVars{
+		URI: "mongodb://localhost:27017/track_trace",
+	}
 )
 
 func main() {
@@ -45,6 +59,15 @@ func main() {
 	SetListenerArgs(args)
 
 	ListenToBlockEvents(channelProvider)
+}
+
+func ConnectToDB() {
+	client, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
+	if err != nil {
+		panic(fmt.Errorf("failed to create client: %v", err))
+	}
+	dbVars.dbClient = client
+
 }
 
 func SetListenerArgs(args []string) {
@@ -74,7 +97,9 @@ func SetListenerArgs(args []string) {
 }
 
 func ListenToBlockEvents(channelProvider context.ChannelProvider) {
-	client, err := eventClient.New(
+
+	// connect to fabric ahnnel
+	evClient, err := eventClient.New(
 		channelProvider,
 		eventClient.WithBlockEvents(),
 		eventClient.WithSeekType(listenArgs.SeekType),
@@ -84,17 +109,37 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 		panic(fmt.Errorf("failed to create event client: %v", err))
 	}
 
-	eventRegister, blockEvents, err := client.RegisterBlockEvent()
-	defer client.Unregister(eventRegister)
+	// connect to mongo DB
+	dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
+	if err != nil {
+		panic(fmt.Errorf("failed to create client: %v", err))
+	}
+	defer func() {
+		if err = dbClient.Disconnect(ctx.TODO()); err != nil {
+			panic(err)
+		}
+	}()
+
+	// get mongo collection
+	coll := dbClient.Database("track_trace").Collection("event")
+
+	// register events
+	eventRegister, blockEvents, err := evClient.RegisterBlockEvent()
+	defer evClient.Unregister(eventRegister)
 
 	fmt.Println("--- start listening to events ---")
 
 	for events := range blockEvents {
 		parsedBlock.Init(events.Block)
 
-		txActions := parsedBlock.BlockData.Envelopes[0].Payload.Transaction.TransactionActions
-		for _, txAction := range txActions {
-			fmt.Println(txAction.ChaincodeActionPayload.ChaincodeEndorsedAction.ProposalResponsePayload.Extension.Results.NsReadWriteSets)
+		doc, err := bson.Marshal(parsedBlock)
+		if err != nil {
+			panic(fmt.Errorf("failed to marshall to bson: %v", err))
 		}
+
+		result, err := coll.InsertOne(ctx.TODO(), doc)
+
+		fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
+
 	}
 }
