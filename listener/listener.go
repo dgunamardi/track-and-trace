@@ -33,7 +33,7 @@ type DBVars struct {
 }
 
 type KVWrite struct {
-	Value []byte
+	Value string
 }
 
 var (
@@ -145,9 +145,11 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 				for _, nsRWSet := range nsRWSets {
 					kvWrites := nsRWSet.RWSet.KVWrites
 					for _, kvWrite := range kvWrites {
-						doc, err := bson.Marshal(KVWrite{
-							Value: kvWrite.Value,
-						})
+
+						kvObject := KVWrite{
+							Value: kvWrite.ValueString,
+						}
+						doc, err := bson.Marshal(kvObject)
 						if err != nil {
 							panic(fmt.Errorf("failed to marshall to bson: %v", err))
 						}
