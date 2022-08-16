@@ -129,21 +129,19 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 	for events := range blockEvents {
 		parsedBlock.Init(events.Block)
 
-		/*
-			// connect to mongo DB
-			dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
-			if err != nil {
-				panic(fmt.Errorf("failed to create client: %v", err))
+		// connect to mongo DB
+		dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
+		if err != nil {
+			panic(fmt.Errorf("failed to create client: %v", err))
+		}
+		defer func() {
+			if err = dbClient.Disconnect(ctx.TODO()); err != nil {
+				panic(err)
 			}
-			defer func() {
-				if err = dbClient.Disconnect(ctx.TODO()); err != nil {
-					panic(err)
-				}
-			}()
+		}()
 
-			// get collection
-			coll := dbClient.Database("track_trace").Collection("event")
-		*/
+		// get collection
+		coll := dbClient.Database("track_trace").Collection("event")
 
 		// unwrap
 		envelopes := parsedBlock.BlockData.Envelopes
@@ -162,17 +160,15 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 							panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
 						}
 
-						/*
-							if docBson.Type != 0 {
-								result, err := coll.InsertOne(ctx.TODO(), docBson)
-								if err != nil {
-									panic(fmt.Errorf("failed to insert document to collection: %v", err))
-								}
-
-								fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
-
+						if docBson.Type != 0 {
+							result, err := coll.InsertOne(ctx.TODO(), docBson)
+							if err != nil {
+								panic(fmt.Errorf("failed to insert document to collection: %v", err))
 							}
-						*/
+
+							fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
+
+						}
 
 					}
 
