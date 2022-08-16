@@ -88,7 +88,7 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 		GetOwnerCredit(client, args[1])
 
 	default:
-		panic("argument is not available. Available Arguments:\n- insertData\n- getOwnerCredit")
+		panic("argument is not available. Available Arguments:\n- submitTransaction\n- getOwnerCredit")
 	}
 }
 
