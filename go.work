@@ -4,5 +4,6 @@ use (
 	./config
 	./invoke
 	./listener
+	./mongotest
 	./parser
 )
