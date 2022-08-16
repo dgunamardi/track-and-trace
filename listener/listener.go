@@ -146,10 +146,7 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 					kvWrites := nsRWSet.RWSet.KVWrites
 					for _, kvWrite := range kvWrites {
 
-						kvObject := KVWrite{
-							Value: kvWrite.ValueString,
-						}
-						doc, err := bson.Marshal(kvObject)
+						doc, err := bson.Marshal(kvWrite)
 						if err != nil {
 							panic(fmt.Errorf("failed to marshall to bson: %v", err))
 						}
