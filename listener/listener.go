@@ -133,7 +133,17 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 
 	log.Println("--- start listening to events ---")
 
+	// skip event once when seek.newest is called to prevent duplicate of latest block to db in case the service is restart
+	skipEvent := false
+	if listenArgs.SeekType == seek.Newest {
+		skipEvent = true
+	}
+
 	for events := range blockEvents {
+		if skipEvent {
+			skipEvent = false
+			continue
+		}
 
 		parsedBlock := parser.Block{}
 		parsedBlock.Init(events.Block)
