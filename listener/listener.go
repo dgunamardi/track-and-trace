@@ -3,6 +3,7 @@ package main
 import (
 	ctx "context"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
@@ -132,7 +133,7 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 	for events := range blockEvents {
 		parsedBlock.Init(events.Block)
 
-		fmt.Println(events.Block.GetHeader().GetNumber())
+		log.Println(events.Block.GetHeader().GetNumber())
 
 		// connect to mongo DB
 		dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
@@ -171,8 +172,7 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 							if err != nil {
 								panic(fmt.Errorf("failed to insert document to collection: %v", err))
 							}
-
-							fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
+							log.Printf("Inserted document with _id: %v\n", result.InsertedID)
 
 						}
 
