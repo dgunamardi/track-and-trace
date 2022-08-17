@@ -51,8 +51,6 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 }
 
 func SubmitTransaction(client *clientChannel.Client, args []string) {
-	fmt.Println(args)
-
 	var byteArgs [][]byte
 
 	for _, arg := range args {
@@ -68,6 +66,7 @@ func SubmitTransaction(client *clientChannel.Client, args []string) {
 		panic(err)
 	}
 	fmt.Printf("insert response: %v\n", string(response.Payload))
+
 }
 
 func GetOwnerCredit(client *clientChannel.Client, ownerId string) {
@@ -85,5 +84,6 @@ func GetOwnerCredit(client *clientChannel.Client, ownerId string) {
 	if err != nil {
 		panic(err)
 	}
+	// to pass somewhere?
 	fmt.Printf("query response: %v\n", string(response.Payload))
 }
