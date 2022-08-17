@@ -25,7 +25,7 @@ func InitializeSDK() {
 	if err != nil {
 		panic(fmt.Errorf("Failed to create new SDK: %s\n", err))
 	}
-	fmt.Println("fabric SDK initialized")
+	//fmt.Println("fabric SDK initialized")
 
 }
 

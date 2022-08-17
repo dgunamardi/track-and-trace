@@ -17,7 +17,6 @@ import (
 
 	eventClient "github.com/hyperledger/fabric-sdk-go/pkg/client/event"
 
-	//	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -106,6 +105,8 @@ func SetListenerArgs(args []string) {
 		listenArgs.SeekType = seek.Newest
 	}
 }
+
+// CHECKPOINT: 833
 
 func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 

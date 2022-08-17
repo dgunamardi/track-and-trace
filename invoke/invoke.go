@@ -2,14 +2,9 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
-	"path/filepath"
 
 	cfg "earhart.com/config"
-
-	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
-	"github.com/pkg/errors"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/context"
 	contextImpl "github.com/hyperledger/fabric-sdk-go/pkg/context"
@@ -34,43 +29,6 @@ func main() {
 	Invoke(channelProvider, args)
 }
 
-func populateWallet(wallet *gateway.Wallet) error {
-	credPath := "/home/tkgoh/Sandbox/track-and-trace/ccp/4f08db41ded98093a7266580a4a2ae3ce62ce74a.peer/msp"
-
-	//certName := "cert.pem"
-	certName := "Admin@4f08db41ded98093a7266580a4a2ae3ce62ce74a.peer-4f08db41ded98093a7266580a4a2ae3ce62ce74a.default.svc.cluster.local-cert.pem"
-	certPath := filepath.Join(credPath, "signcerts", certName)
-	// read the certificate pem
-	cert, err := ioutil.ReadFile(filepath.Clean(certPath))
-	if err != nil {
-		return err
-	}
-
-	keyDir := filepath.Join(credPath, "keystore")
-	// there's a single file in this dir containing the private key
-	files, err := ioutil.ReadDir(keyDir)
-	if err != nil {
-		return err
-	}
-	if len(files) != 1 {
-		return errors.New("keystore folder should have contain one file")
-	}
-	keyPath := filepath.Join(keyDir, files[0].Name())
-	key, err := ioutil.ReadFile(filepath.Clean(keyPath))
-	if err != nil {
-		return err
-	}
-
-	identity := gateway.NewX509Identity("4f08db41ded98093a7266580a4a2ae3ce62ce74aMSP", string(cert), string(key))
-
-	err = wallet.Put("admin", identity)
-	if err != nil {
-		return err
-	}
-	// fmt.Println("wallet done")
-	return nil
-}
-
 func Invoke(channelProvider context.ChannelProvider, args []string) {
 	client, err := clientChannel.New(channelProvider)
 	if err != nil {
@@ -82,18 +40,17 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 	}
 
 	switch args[0] {
-	case "submitTransaction":
+	case "insertData":
 		SubmitTranscation(client)
 	case "getOwnerCredit":
 		GetOwnerCredit(client, args[1])
 
 	default:
-		panic("argument is not available. Available Arguments:\n- submitTransaction\n- getOwnerCredit")
+		panic("argument is not available. Available Arguments:\n- insertData\n- getOwnerCredit")
 	}
 }
 
 func SubmitTranscation(client *clientChannel.Client) {
-	// replace with something later
 	stringArgs := []string{
 		"912edf2e-933d-4793-9ba0-2077c57070aq",
 		"912edf2e-933d-4793-9ba0-2077c57070aq",
@@ -126,7 +83,6 @@ func SubmitTranscation(client *clientChannel.Client) {
 }
 
 func GetOwnerCredit(client *clientChannel.Client, ownerId string) {
-	// send to something later
 	if ownerId == "" {
 		panic("ownerId cannot be empty")
 	}
