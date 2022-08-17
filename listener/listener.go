@@ -109,7 +109,10 @@ func SetListenerArgs(args []string) {
 	}
 }
 
-// CHECKPOINT: 833
+// CHECKPOINT:
+// - GTIN IN OUT: 833
+// - INVOKE TESTING:
+// - PROPER CP:
 
 func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 

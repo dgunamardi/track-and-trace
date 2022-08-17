@@ -40,8 +40,8 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 	}
 
 	switch args[0] {
-	case "insertData":
-		SubmitTranscation(client)
+	case "submitTransaction":
+		SubmitTransaction(client, args[1:])
 	case "getOwnerCredit":
 		GetOwnerCredit(client, args[1])
 
@@ -50,25 +50,13 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 	}
 }
 
-func SubmitTranscation(client *clientChannel.Client) {
-	stringArgs := []string{
-		"912edf2e-933d-4793-9ba0-2077c57070aq",
-		"912edf2e-933d-4793-9ba0-2077c57070aq",
-		"1043022868954",
-		"42547cba-a4aa-4758-812f-a3699489c1c4",
-		"1",
-		"69700806964203",
-		"210UDXYXNFEKJAIWFVQMW",
-		"2022-Aug-09T15:21:40 +0000",
-		"-8.1971482,114.4440049",
-		"Bali",
-		"Bali_factory_2",
-	}
+func SubmitTransaction(client *clientChannel.Client, args []string) {
+	fmt.Println(args)
 
 	var byteArgs [][]byte
 
-	for _, stringArg := range stringArgs {
-		byteArgs = append(byteArgs, []byte(stringArg))
+	for _, arg := range args {
+		byteArgs = append(byteArgs, []byte(arg))
 	}
 
 	response, err := client.Execute(clientChannel.Request{
