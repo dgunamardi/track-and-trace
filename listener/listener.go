@@ -51,7 +51,7 @@ var (
 		StartBlock: 340,
 	}
 
-	parsedBlock parser.Block
+	//parsedBlock parser.Block
 
 	dbVars = DBVars{
 		URI: "mongodb://localhost:27017/track_trace",
@@ -131,9 +131,11 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 	eventRegister, blockEvents, err := evClient.RegisterBlockEvent()
 	defer evClient.Unregister(eventRegister)
 
-	fmt.Println("--- start listening to events ---")
+	log.Println("--- start listening to events ---")
 
 	for events := range blockEvents {
+
+		parsedBlock := parser.Block{}
 		parsedBlock.Init(events.Block)
 
 		log.Println(events.Block.GetHeader().GetNumber())
@@ -162,14 +164,16 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 					kvWrites := nsRWSet.RWSet.KVWrites
 
 					for _, kvWrite := range kvWrites {
-						//fmt.Println(kvWrite.ValueString)
+						//log.Println("kvWrite:\n" + kvWrite.ValueString)
 
 						docBson := &TransactionData{}
 						err = bson.UnmarshalExtJSON(kvWrite.Value, true, docBson)
 						if err != nil {
 							panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
 						}
-						//fmt.Println(docBson)
+
+						//log.Printf("\nDocBson:\n%v", docBson)
+
 						if docBson.Event_Type != 0 {
 							result, err := coll.InsertOne(ctx.TODO(), docBson)
 							if err != nil {
