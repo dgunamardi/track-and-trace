@@ -33,13 +33,15 @@ type DBVars struct {
 }
 
 type TransactionData struct {
-	eventId      string
-	Type         int32
-	GTIN         string
-	SerialNumber string
-	EventTime    string
-	EventLoc     string
-	CompanyName  string
+	Event_Id      string
+	Event_Type    int32
+	Input_GTIN    string
+	Ouput_GTIN    string
+	Serial_Number string
+	Event_Time    string
+	Event_Loc     string
+	Location_Name string
+	Company_Name  string
 }
 
 var (
@@ -130,6 +132,8 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 	for events := range blockEvents {
 		parsedBlock.Init(events.Block)
 
+		fmt.Println(events.Block.GetHeader().GetNumber())
+
 		// connect to mongo DB
 		dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
 		if err != nil {
@@ -154,14 +158,15 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 					kvWrites := nsRWSet.RWSet.KVWrites
 
 					for _, kvWrite := range kvWrites {
+						//fmt.Println(kvWrite.ValueString)
 
 						docBson := &TransactionData{}
 						err = bson.UnmarshalExtJSON(kvWrite.Value, true, docBson)
 						if err != nil {
 							panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
 						}
-
-						if docBson.Type != 0 {
+						//fmt.Println(docBson)
+						if docBson.Event_Type != 0 {
 							result, err := coll.InsertOne(ctx.TODO(), docBson)
 							if err != nil {
 								panic(fmt.Errorf("failed to insert document to collection: %v", err))
