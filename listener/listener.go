@@ -182,8 +182,7 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 							panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
 						}
 
-						//log.Printf("\nDocBson:\n%v", docBson)
-
+						log.Printf("\nDocBson:\n%v", docBson)
 						if docBson.Event_Type != 0 {
 							result, err := coll.InsertOne(ctx.TODO(), docBson)
 							if err != nil {
