@@ -34,15 +34,15 @@ type DBVars struct {
 }
 
 type TransactionData struct {
-	Event_Id      string `json:"event_id"`
-	Event_Type    int32  `json:"event_type"`
-	Input_GTIN    string `json:"input_gtin"`
-	Ouput_GTIN    string `json:"output_gtin"`
-	Serial_Number string `json:"serial_number"`
-	Event_Time    string `json:"event_time"`
-	Event_Loc     string `json:"event_loc"`
-	Location_Name string `json:"location_name"`
-	Company_Name  string `json:"company_name"`
+	Event_Id       string `json:"event_id"`
+	Event_Type     int32  `json:"event_type"`
+	Input_GTIN     string `json:"input_gtin"`
+	Ouput_GTIN     string `json:"output_gtin"`
+	Serial_Number  string `json:"serial_number"`
+	Event_Time     string `json:"event_time"`
+	Event_Location string `json:"event_location"`
+	Location_Name  string `json:"location_name"`
+	Company_Name   string `json:"company_name"`
 }
 
 var (
