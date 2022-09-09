@@ -4,8 +4,10 @@ import (
 	ctx "context"
 	"fmt"
 	"log"
-	"os"
+	//"os"
+	"regexp"
 	"strconv"
+	"strings"
 
 	cfg "earhart.com/config"
 	parser "earhart.com/parser"
@@ -18,7 +20,7 @@ import (
 
 	eventClient "github.com/hyperledger/fabric-sdk-go/pkg/client/event"
 
-	"go.mongodb.org/mongo-driver/bson"
+	//	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -33,7 +35,7 @@ type DBVars struct {
 	dbClient *mongo.Client
 }
 
-type TransactionData struct {
+type TransactionData_Json struct {
 	Event_Id      string `json:"event_id"`
 	Event_Type    int32  `json:"event_type"`
 	Input_GTIN    string `json:"input_gtin"`
@@ -47,11 +49,9 @@ type TransactionData struct {
 
 var (
 	listenArgs = ListenArgs{
-		SeekType:   seek.Newest,
-		StartBlock: 340,
+		SeekType:   seek.FromBlock,
+		StartBlock: 2001,
 	}
-
-	//parsedBlock parser.Block
 
 	dbVars = DBVars{
 		URI: "mongodb://localhost:27017/track_trace",
@@ -68,8 +68,8 @@ func main() {
 		return contextImpl.NewChannel(session, cfg.CVars.ChannelId)
 	}
 
-	args := os.Args[1:]
-	SetListenerArgs(args)
+	//args := os.Args[1:]
+	//SetListenerArgs(args)
 
 	ListenToBlockEvents(channelProvider)
 }
@@ -109,10 +109,29 @@ func SetListenerArgs(args []string) {
 	}
 }
 
+func dictToString(val []byte) (res string) {
+	valString := string(val)
+
+	trimBrackets := strings.Trim(valString, "{}")
+	stringArrRaw := strings.Split(trimBrackets, ",")
+
+	var stringArrClean []string
+	for _, word := range stringArrRaw {
+		m := regexp.MustCompile("^(.*):")
+		clean := m.ReplaceAllString(word, "")
+
+		stringArrClean = append(stringArrClean, clean)
+	}
+
+	res = strings.Join(stringArrClean, " ")
+	return res
+}
+
 // CHECKPOINT:
 // - GTIN IN OUT: 833
 // - INVOKE TESTING:
 // - PROPER CP:
+//
 
 func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 
@@ -138,6 +157,7 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 	if listenArgs.SeekType == seek.Newest {
 		skipEvent = true
 	}
+	skipEvent = false
 
 	for events := range blockEvents {
 		if skipEvent {
@@ -145,10 +165,14 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 			continue
 		}
 
+		blockNumber := events.Block.GetHeader().GetNumber()
+		if blockNumber > 2020 {
+			break
+		}
+		log.Println(events.Block.GetHeader().GetNumber())
+
 		parsedBlock := parser.Block{}
 		parsedBlock.Init(events.Block)
-
-		log.Println(events.Block.GetHeader().GetNumber())
 
 		// connect to mongo DB
 		dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
@@ -175,21 +199,38 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 
 					for _, kvWrite := range kvWrites {
 						//log.Println("kvWrite:\n" + kvWrite.ValueString)
+						//
+						var txData TransactionData
+						txData.Populate(kvWrite.Value)
 
-						docBson := &TransactionData{}
-						err = bson.UnmarshalExtJSON(kvWrite.Value, true, docBson)
-						if err != nil {
-							panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
-						}
+						/*
+								docBson := &TransactionData_Json{}
+								err = bson.UnmarshalExtJSON(kvWrite.Value, true, docBson)
+								if err != nil {
+									panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
+								}
 
-						log.Printf("\nDocBson:\n%v", docBson)
-						if docBson.Event_Type != 0 {
-							result, err := coll.InsertOne(ctx.TODO(), docBson)
+							//log.Printf("\nDocBson:\n%v", docBson)
+
+
+								if docBson.Event_Type != 0 {
+									result, err := coll.InsertOne(ctx.TODO(), docBson)
+									if err != nil {
+										panic(fmt.Errorf("failed to insert document to collection: %v", err))
+									}
+									log.Printf("Inserted document with _id: %v\n", result.InsertedID)
+
+								}
+						*/
+
+						if txData.EventType != 0 {
+							log.Println(txData)
+							result, err := coll.InsertOne(ctx.TODO(), txData)
 							if err != nil {
 								panic(fmt.Errorf("failed to insert document to collection: %v", err))
 							}
-							log.Printf("Inserted document with _id: %v\n", result.InsertedID)
 
+							log.Printf("Inserted document with _id: %v\n", result.InsertedID)
 						}
 
 					}
@@ -197,6 +238,5 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 				}
 			}
 		}
-
 	}
 }
