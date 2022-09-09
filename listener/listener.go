@@ -4,6 +4,7 @@ import (
 	ctx "context"
 	"fmt"
 	"log"
+
 	//"os"
 	"regexp"
 	"strconv"
@@ -33,18 +34,6 @@ type ListenArgs struct {
 type DBVars struct {
 	URI      string
 	dbClient *mongo.Client
-}
-
-type TransactionData_Json struct {
-	Event_Id      string `json:"event_id"`
-	Event_Type    int32  `json:"event_type"`
-	Input_GTIN    string `json:"input_gtin"`
-	Output_GTIN   string `json:"output_gtin"`
-	Serial_Number string `json:"serial_number"`
-	Event_Time    string `json:"event_time"`
-	Event_Loc     string `json:"event_loc"`
-	Location_Name string `json:"location_name"`
-	Company_Name  string `json:"company_name"`
 }
 
 var (
@@ -166,7 +155,7 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 		}
 
 		blockNumber := events.Block.GetHeader().GetNumber()
-		if blockNumber > 2020 {
+		if blockNumber > 2021 {
 			break
 		}
 		log.Println(events.Block.GetHeader().GetNumber())
@@ -199,9 +188,9 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 
 					for _, kvWrite := range kvWrites {
 						//log.Println("kvWrite:\n" + kvWrite.ValueString)
-						//
-						var txData TransactionData
-						txData.Populate(kvWrite.Value)
+
+						var eventData parser.EventData
+						eventData.Populate(kvWrite.Value)
 
 						/*
 								docBson := &TransactionData_Json{}
@@ -223,9 +212,10 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 								}
 						*/
 
-						if txData.EventType != 0 {
-							log.Println(txData)
-							result, err := coll.InsertOne(ctx.TODO(), txData)
+						if eventData.EventType != 0 {
+							log.Println(eventData)
+
+							result, err := coll.InsertOne(ctx.TODO(), eventData)
 							if err != nil {
 								panic(fmt.Errorf("failed to insert document to collection: %v", err))
 							}
