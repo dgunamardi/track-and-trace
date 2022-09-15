@@ -1,6 +1,8 @@
 package parser
 
 import (
+	//"fmt"
+
 	"regexp"
 	"strconv"
 	"strings"
@@ -18,11 +20,15 @@ type EventData struct {
 	CompanyName  string   `bson:"company_name" json:"company_name"`
 }
 
+// NOTES
+// IF tags doesnt work in fabric, just all string, parse later
+
 func (txData *EventData) Populate(rawByte []byte) {
 	stringArr := CleanStringArr(string(rawByte))
 	if len(stringArr) < 9 {
 		return
 	}
+	//fmt.Println(stringArr)
 
 	txData.EventId = stringArr[0]
 
@@ -44,36 +50,46 @@ func (txData *EventData) Populate(rawByte []byte) {
 }
 
 func CleanStringArr(rawString string) (res []string) {
-	//fmt.Println("raw string= ", rawString)
-	trimBrackets := strings.Trim(rawString, "{}")
+	//fmt.Println("raw string:", rawString)
+	cleanString := strings.Trim(rawString, "{}")
 
-	// Between GTIN
-	mGTIN := regexp.MustCompile(", ")
-	replacedCommaGTIN := mGTIN.ReplaceAllString(trimBrackets, "|")
+	// GLOBAL COLON
+	mColon := regexp.MustCompile("(\"):(\"|\\d)")
+	cleanString = mColon.ReplaceAllString(cleanString, "$1|$2")
+	//fmt.Println("ColonToPipe:", cleanString)
+	// ------------
 
-	// Between Coordinate
-	mCoord := regexp.MustCompile("[[:alnum:]],[[:alnum:]]")
-	replacedCommaCoord := mCoord.ReplaceAllString(replacedCommaGTIN, ";")
+	// GLOBAL COMMA
+	mComma := regexp.MustCompile("(\"|\\d),(\")")
+	cleanString = mComma.ReplaceAllString(cleanString, "$1;$2")
+	//fmt.Println("CommaToSemiColon:", cleanString)
+	// ------------
 
-	// Remove All Quotes
-	cleanQuotes := strings.ReplaceAll(replacedCommaCoord, "\"", "")
-	//fmt.Println(cleanQuotes)
-
-	stringRawArr := strings.Split(cleanQuotes, ",")
+	stringRawArr := strings.Split(cleanString, ";")
 
 	for _, stringRaw := range stringRawArr {
-		m := regexp.MustCompile("^(.*):")
-		clean := m.ReplaceAllString(stringRaw, "")
+		//fmt.Println("String", stringRaw)
+		// CLEAR KEY
+		mKey := regexp.MustCompile("^(.+)\\|")
+		clean := mKey.ReplaceAllString(stringRaw, "")
+
+		// CLEAR QUOTES
+		mQuote := regexp.MustCompile("\"(.+)\"")
+		clean = mQuote.ReplaceAllString(clean, "$1")
 
 		res = append(res, clean)
 	}
+
 	return res
 }
 
 func CleanGTIN(rawString string) (res []string) {
-	trimBrackets := strings.Trim(rawString, "[]")
+	cleanString := strings.Trim(rawString, "[]")
+	//fmt.Println(cleanString)
 
-	stringRawArr := strings.Split(trimBrackets, "|")
+	stringRawArr := strings.Split(cleanString, ", ")
+	//fmt.Println(stringRawArr)
+
 	for _, stringRaw := range stringRawArr {
 		res = append(res, strings.Trim(stringRaw, "'"))
 	}

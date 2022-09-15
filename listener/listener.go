@@ -5,10 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	//"os"
-	"regexp"
+	"os"
 	"strconv"
-	"strings"
 
 	cfg "earhart.com/config"
 	parser "earhart.com/parser"
@@ -21,7 +19,6 @@ import (
 
 	eventClient "github.com/hyperledger/fabric-sdk-go/pkg/client/event"
 
-	//	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -57,8 +54,8 @@ func main() {
 		return contextImpl.NewChannel(session, cfg.CVars.ChannelId)
 	}
 
-	//args := os.Args[1:]
-	//SetListenerArgs(args)
+	args := os.Args[1:]
+	SetListenerArgs(args)
 
 	ListenToBlockEvents(channelProvider)
 }
@@ -98,24 +95,6 @@ func SetListenerArgs(args []string) {
 	}
 }
 
-func dictToString(val []byte) (res string) {
-	valString := string(val)
-
-	trimBrackets := strings.Trim(valString, "{}")
-	stringArrRaw := strings.Split(trimBrackets, ",")
-
-	var stringArrClean []string
-	for _, word := range stringArrRaw {
-		m := regexp.MustCompile("^(.*):")
-		clean := m.ReplaceAllString(word, "")
-
-		stringArrClean = append(stringArrClean, clean)
-	}
-
-	res = strings.Join(stringArrClean, " ")
-	return res
-}
-
 // CHECKPOINT:
 // - GTIN IN OUT: 833
 // - INVOKE TESTING:
@@ -146,7 +125,7 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 	if listenArgs.SeekType == seek.Newest {
 		skipEvent = true
 	}
-	skipEvent = false
+	//skipEvent = false
 
 	for events := range blockEvents {
 		if skipEvent {
@@ -155,10 +134,12 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 		}
 
 		blockNumber := events.Block.GetHeader().GetNumber()
-		if blockNumber > 2021 {
-			break
-		}
-		log.Println(events.Block.GetHeader().GetNumber())
+		/*
+			if blockNumber > 2001 {
+				break
+			}
+		*/
+		log.Println(blockNumber)
 
 		parsedBlock := parser.Block{}
 		parsedBlock.Init(events.Block)
@@ -191,26 +172,6 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 
 						var eventData parser.EventData
 						eventData.Populate(kvWrite.Value)
-
-						/*
-								docBson := &TransactionData_Json{}
-								err = bson.UnmarshalExtJSON(kvWrite.Value, true, docBson)
-								if err != nil {
-									panic(fmt.Errorf("failed to unmarshal json to bson: %v", err))
-								}
-
-							//log.Printf("\nDocBson:\n%v", docBson)
-
-
-								if docBson.Event_Type != 0 {
-									result, err := coll.InsertOne(ctx.TODO(), docBson)
-									if err != nil {
-										panic(fmt.Errorf("failed to insert document to collection: %v", err))
-									}
-									log.Printf("Inserted document with _id: %v\n", result.InsertedID)
-
-								}
-						*/
 
 						if eventData.EventType != 0 {
 							log.Println(eventData)
