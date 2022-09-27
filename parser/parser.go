@@ -65,7 +65,7 @@ type Envelope struct {
 }
 
 func (e *Envelope) Init(envelope *common.Envelope) {
-	e.IsTransaction = true
+	e.IsTransaction = false
 	e.EnvelopeProto = envelope
 	//tbm
 	//fmt.Println(e.ENvelopeProto)
@@ -86,8 +86,8 @@ func (e *Envelope) ParsePayload() {
 type Payload struct {
 	PayloadProto *common.Payload
 
-	Header      Header
-	Transaction Transaction
+	Header      Header      // Payload Header, Proposal Header, Transaction Header
+	Transaction Transaction // Payload Data
 }
 
 func (p *Payload) Init(payload *common.Payload) bool {
@@ -96,8 +96,10 @@ func (p *Payload) Init(payload *common.Payload) bool {
 	//fmt.Println(p.PayloadProto)
 	p.GetHeader()
 	//fmt.Println(p.Header.ChannelHeader.ChannelHeaderProto.Type)
-	//
-	if p.Header.ChannelHeader.ChannelHeaderProto.Type != 3 {
+
+	// return false if it is not transaction, i.e:
+	// common.HeaderType_CONFIG
+	if common.HeaderType(p.Header.ChannelHeader.ChannelHeaderProto.Type) != common.HeaderType_ENDORSER_TRANSACTION {
 		return false
 	}
 	p.ParseTransaction()
@@ -226,6 +228,7 @@ func (cap *ChaincodeActionPayload) GetChaincodeEndorsedAction() {
 type ChaincodeProposalPayload struct {
 	ChaincodeProposalPayloadProto *peer.ChaincodeProposalPayload
 
+	ChaincodeInvocationSpec ChaincodeInvocationSpec
 	// Expand Later
 }
 
@@ -233,6 +236,24 @@ func (cpp *ChaincodeProposalPayload) Init(chaincodeProposalPayload *peer.Chainco
 	cpp.ChaincodeProposalPayloadProto = chaincodeProposalPayload
 	// tbm
 	//fmt.Println(cpp.ChaincodeProposalPayloadProto)
+	cpp.ParseChaincodeInvocationSpec()
+}
+
+func (cpp *ChaincodeProposalPayload) ParseChaincodeInvocationSpec() {
+	chaincodeInvocationSpec := &peer.ChaincodeInvocationSpec{}
+	err := proto.Unmarshal(cpp.ChaincodeProposalPayloadProto.GetInput(), chaincodeInvocationSpec)
+	if err != nil {
+		panic(err)
+	}
+	cpp.ChaincodeInvocationSpec.Init(chaincodeInvocationSpec)
+}
+
+type ChaincodeInvocationSpec struct {
+	ChaincodeInvocationSpecProto *peer.ChaincodeInvocationSpec
+}
+
+func (cis *ChaincodeInvocationSpec) Init(chaincodeInvocationSpec *peer.ChaincodeInvocationSpec) {
+	cis.ChaincodeInvocationSpecProto = chaincodeInvocationSpec
 }
 
 type ChaincodeEndorsedAction struct {

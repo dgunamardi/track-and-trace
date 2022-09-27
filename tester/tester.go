@@ -57,6 +57,7 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 		DissectHeader(block.GetHeader())
 		DissectBody(block.GetData())
 		DissectMeta(block.GetMetadata())
+
 	}
 
 }
@@ -130,6 +131,10 @@ func DissectBody(bData *common.BlockData) {
 			panic(err)
 		}
 		fmt.Println("::::: Signature Header:", "signHeader", "<- ~marshaled msp.SerializedIdentity + Nonce")
+
+		if common.HeaderType(chanHeader.GetType()) != common.HeaderType_ENDORSER_TRANSACTION {
+			continue
+		}
 
 		// ==== PAYLOAD DATA // TRANSACTION ====
 		transaction := &peer.Transaction{}
@@ -234,17 +239,18 @@ func DissectBody(bData *common.BlockData) {
 				fmt.Println("::::::::::: RWSets == KVRWSets:", placeHolder)
 				fmt.Println("::::::::::: For Each: ")
 
-				if setCount := len(kvrwset.GetReads()); setCount == len(kvrwset.GetWrites()) {
-					for i := 0; i < setCount; i++ {
-						fmt.Printf(":::::::::::: RWSet#%v\n", i)
-						fmt.Println("::::::::::::: Read:", placeHolder)
-						fmt.Println(":::::::::::::: Key:", kvrwset.GetReads()[i].GetKey())
-						fmt.Println(":::::::::::::: Version:", kvrwset.GetReads()[i].GetVersion())
-						fmt.Println("::::::::::::: Write:", placeHolder)
-						fmt.Println(":::::::::::::: Key:", kvrwset.GetWrites()[i].GetKey())
-						fmt.Println(":::::::::::::: Value:", string(kvrwset.GetWrites()[i].GetValue()), "<-- to string")
-						fmt.Println(":::::::::::::: IsDelete:", kvrwset.GetWrites()[i].GetIsDelete())
-					}
+				fmt.Println("::::::::::::: Read:", placeHolder)
+				for _, read := range kvrwset.GetReads() {
+					fmt.Println(":::::::::::::: Key:", read.GetKey())
+					fmt.Println(":::::::::::::: Version:", read.GetVersion())
+				}
+
+				fmt.Println("::::::::::::: Write:", placeHolder)
+				for _, write := range kvrwset.GetWrites() {
+					fmt.Println(":::::::::::::: Key:", write.GetKey())
+					fmt.Println(":::::::::::::: Value:", write.GetValue(), "<-- to string")
+					fmt.Println(":::::::::::::: IsDelete:", write.GetIsDelete())
+
 				}
 
 				fmt.Println(":::::::::::: RangeQuiresInfo:", kvrwset.GetRangeQueriesInfo(), "<-- is empty?")

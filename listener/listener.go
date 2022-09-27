@@ -2,8 +2,10 @@ package main
 
 import (
 	ctx "context"
+	"encoding/json"
 	"fmt"
 	"log"
+	"strings"
 
 	"os"
 	"strconv"
@@ -11,6 +13,8 @@ import (
 	cfg "earhart.com/config"
 	parser "earhart.com/parser"
 
+	"github.com/hyperledger/fabric-protos-go/common"
+	"github.com/hyperledger/fabric-protos-go/peer"
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/context"
 	contextImpl "github.com/hyperledger/fabric-sdk-go/pkg/context"
 
@@ -29,18 +33,25 @@ type ListenArgs struct {
 }
 
 type DBVars struct {
-	URI      string
-	dbClient *mongo.Client
+	URI         string
+	dbClient    *mongo.Client
+	Name        string
+	Collections []string
 }
 
 var (
 	listenArgs = ListenArgs{
-		SeekType:   seek.FromBlock,
-		StartBlock: 2001,
+		SeekType:   seek.Newest,
+		StartBlock: 0,
 	}
 
 	dbVars = DBVars{
-		URI: "mongodb://localhost:27017/track_trace",
+		URI:  "mongodb://localhost:27017/food_safety",
+		Name: "food_sagety",
+		Collections: []string{
+			"track_trace",
+			"import",
+		},
 	}
 )
 
@@ -95,15 +106,7 @@ func SetListenerArgs(args []string) {
 	}
 }
 
-// CHECKPOINT:
-// - GTIN IN OUT: 833
-// - INVOKE TESTING:
-// - PROPER CP:
-//
-
 func ListenToBlockEvents(channelProvider context.ChannelProvider) {
-
-	// connect to fabric ahnnel
 	evClient, err := eventClient.New(
 		channelProvider,
 		eventClient.WithBlockEvents(),
@@ -114,7 +117,6 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 		panic(fmt.Errorf("failed to create event client: %v", err))
 	}
 
-	// register events
 	eventRegister, blockEvents, err := evClient.RegisterBlockEvent()
 	defer evClient.Unregister(eventRegister)
 
@@ -125,7 +127,6 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 	if listenArgs.SeekType == seek.Newest {
 		skipEvent = true
 	}
-	//skipEvent = false
 
 	for events := range blockEvents {
 		if skipEvent {
@@ -134,60 +135,105 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 		}
 
 		blockNumber := events.Block.GetHeader().GetNumber()
-		/*
-			if blockNumber > 2001 {
-				break
-			}
-		*/
 		log.Println(blockNumber)
 
 		parsedBlock := parser.Block{}
 		parsedBlock.Init(events.Block)
 
-		// connect to mongo DB
-		dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
-		if err != nil {
-			panic(fmt.Errorf("failed to create client: %v", err))
-		}
-		defer func() {
-			if err = dbClient.Disconnect(ctx.TODO()); err != nil {
-				panic(err)
+		/*
+			// connect to mongo DB
+			dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
+			if err != nil {
+				panic(fmt.Errorf("failed to create client: %v", err))
 			}
-		}()
+			defer func() {
+				if err = dbClient.Disconnect(ctx.TODO()); err != nil {
+					panic(err)
+				}
+			}()
+		*/
 
-		// get collection
-		coll := dbClient.Database("track_trace").Collection("event")
-
-		// unwrap
+		// === UNWRAP THE ENVELOPE ===
 		envelopes := parsedBlock.BlockData.Envelopes
 		for _, envelope := range envelopes {
+
+			// * SKIP IF NOT TX
+			txType := common.HeaderType(envelope.Payload.Header.ChannelHeader.ChannelHeaderProto.GetType())
+			if txType != common.HeaderType_ENDORSER_TRANSACTION {
+				continue
+			}
+
+			// * FOR EVERY ACTION
 			txActions := envelope.Payload.Transaction.TransactionActions
 			for _, txAction := range txActions {
+
+				// * CHECK INVOCATION SPEC FOR FUNCTION NAME TO DETERMINE COLLECTION / OBJECT TYPE
+				invocationSpec := txAction.ChaincodeActionPayload.ChaincodeProposalPayload.ChaincodeInvocationSpec.ChaincodeInvocationSpecProto
+				collectionName := GetCollectionName(invocationSpec.GetChaincodeSpec())
+
+				log.Println(collectionName)
+
 				nsRWSets := txAction.ChaincodeActionPayload.ChaincodeEndorsedAction.ProposalResponsePayload.Extension.Results.NsReadWriteSets
 				for _, nsRWSet := range nsRWSets {
-					kvWrites := nsRWSet.RWSet.KVWrites
-
-					for _, kvWrite := range kvWrites {
-						//log.Println("kvWrite:\n" + kvWrite.ValueString)
-
-						var eventData parser.EventData
-						eventData.Populate(kvWrite.Value)
-
-						if eventData.EventType != 0 {
-							log.Println(eventData)
-
-							result, err := coll.InsertOne(ctx.TODO(), eventData)
-							if err != nil {
-								panic(fmt.Errorf("failed to insert document to collection: %v", err))
-							}
-
-							log.Printf("Inserted document with _id: %v\n", result.InsertedID)
-						}
-
+					// * SKIP IF LSCC
+					if nsRWSet.Namespace == "lscc" {
+						continue
 					}
-
+					kvWrites := nsRWSet.RWSet.KVWrites
+					InsertToDB(kvWrites, collectionName)
 				}
 			}
 		}
 	}
+}
+
+func GetCollectionName(ccSpec *peer.ChaincodeSpec) (collectionName string) {
+	fcnName := string(ccSpec.GetInput().GetArgs()[0])
+	if strings.Contains(fcnName, "IMP") {
+		return "import"
+	}
+	if strings.Contains(fcnName, "TNT") {
+		return "track_trace"
+	}
+	return ""
+}
+
+func InsertToDB(kvWrites []parser.KVWrite, collectionName string) {
+
+	//coll := dbClient.Database(dbVars.Name).Collection(collectionName)
+
+	for _, kvWrite := range kvWrites {
+
+		var data parser.ObjectData
+
+		if collectionName == "track_trace" {
+			data = &parser.EventData{}
+			err := json.Unmarshal(kvWrite.Value, data)
+			if err != nil {
+				panic(err)
+			}
+		}
+
+		if collectionName == "import" {
+			data = &parser.ImportData{}
+			err := json.Unmarshal(kvWrite.Value, data)
+			if err != nil {
+				panic(err)
+			}
+		}
+
+		if data.IsValid() {
+			log.Println(data)
+
+			/*
+				result, err := coll.InsertOne(ctx.TODO(), data)
+				if err != nil {
+					panic(fmt.Errorf("failed to insert document to collection: %v", err))
+				}
+
+				log.Printf("Inserted document with _id: %v\n", result.InsertedID)
+			*/
+		}
+	}
+
 }

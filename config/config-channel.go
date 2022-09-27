@@ -31,11 +31,11 @@ type ConfigVariables struct {
 var (
 	CVars = ConfigVariables{
 		ConfigPath: CompositePath{
-			Json: "/home/tkgoh/Sandbox/track-and-trace/ccp/bcs-test-channel-sdk-config.json",
-			Yaml: "/home/tkgoh/Sandbox/track-and-trace/ccp/bcs-test-channel-sdk-config.yaml",
+			Json: "/home/tkgoh/Sandbox/track-and-trace/ccp-bcs2/bcs2-channel-sdk-config.json",
+			Yaml: "/home/tkgoh/Sandbox/track-and-trace/ccp-bcs2/bcs2-channel-sdk-config.yaml",
 		},
 		Credentials: Credentials{
-			OrgId:    "4f08db41ded98093a7266580a4a2ae3ce62ce74a",
+			OrgId:    "e104613781c697e3e9ec6b02f6876d4d42604f93",
 			UserName: "Admin",
 		},
 	}
