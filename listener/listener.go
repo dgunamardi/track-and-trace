@@ -34,7 +34,6 @@ type ListenArgs struct {
 
 type DBVars struct {
 	URI         string
-	dbClient    *mongo.Client
 	Name        string
 	Collections []string
 }
@@ -47,7 +46,7 @@ var (
 
 	dbVars = DBVars{
 		URI:  "mongodb://localhost:27017/food_safety",
-		Name: "food_sagety",
+		Name: "food_safety",
 		Collections: []string{
 			"track_trace",
 			"import",
@@ -69,15 +68,6 @@ func main() {
 	SetListenerArgs(args)
 
 	ListenToBlockEvents(channelProvider)
-}
-
-func ConnectToDB() {
-	client, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
-	if err != nil {
-		panic(fmt.Errorf("failed to create client: %v", err))
-	}
-	dbVars.dbClient = client
-
 }
 
 func SetListenerArgs(args []string) {
@@ -140,18 +130,16 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 		parsedBlock := parser.Block{}
 		parsedBlock.Init(events.Block)
 
-		/*
-			// connect to mongo DB
-			dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
-			if err != nil {
-				panic(fmt.Errorf("failed to create client: %v", err))
+		// === CONNECT TO MONGO DB ===
+		dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
+		if err != nil {
+			panic(fmt.Errorf("failed to create client: %v", err))
+		}
+		defer func() {
+			if err = dbClient.Disconnect(ctx.TODO()); err != nil {
+				panic(err)
 			}
-			defer func() {
-				if err = dbClient.Disconnect(ctx.TODO()); err != nil {
-					panic(err)
-				}
-			}()
-		*/
+		}()
 
 		// === UNWRAP THE ENVELOPE ===
 		envelopes := parsedBlock.BlockData.Envelopes
@@ -169,9 +157,9 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 
 				// * CHECK INVOCATION SPEC FOR FUNCTION NAME TO DETERMINE COLLECTION / OBJECT TYPE
 				invocationSpec := txAction.ChaincodeActionPayload.ChaincodeProposalPayload.ChaincodeInvocationSpec.ChaincodeInvocationSpecProto
-				collectionName := GetCollectionName(invocationSpec.GetChaincodeSpec())
+				collectionIdx := GetCollectionName(invocationSpec.GetChaincodeSpec())
 
-				log.Println(collectionName)
+				log.Println(collectionIdx)
 
 				nsRWSets := txAction.ChaincodeActionPayload.ChaincodeEndorsedAction.ProposalResponsePayload.Extension.Results.NsReadWriteSets
 				for _, nsRWSet := range nsRWSets {
@@ -180,59 +168,58 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 						continue
 					}
 					kvWrites := nsRWSet.RWSet.KVWrites
-					InsertToDB(kvWrites, collectionName)
+					InsertToDB(kvWrites, dbClient, collectionIdx)
+					//InsertToDB(kvWrites, nil, collectionIdx)
 				}
 			}
 		}
 	}
 }
 
-func GetCollectionName(ccSpec *peer.ChaincodeSpec) (collectionName string) {
+type CollectionIndex int32
+
+const (
+	TRACK_TRACE CollectionIndex = 0
+	IMPORT      CollectionIndex = 1
+)
+
+func GetCollectionName(ccSpec *peer.ChaincodeSpec) CollectionIndex {
 	fcnName := string(ccSpec.GetInput().GetArgs()[0])
 	if strings.Contains(fcnName, "IMP") {
-		return "import"
+		return IMPORT
 	}
 	if strings.Contains(fcnName, "TNT") {
-		return "track_trace"
+		return TRACK_TRACE
 	}
-	return ""
+	return -1
 }
 
-func InsertToDB(kvWrites []parser.KVWrite, collectionName string) {
+func InsertToDB(kvWrites []parser.KVWrite, dbClient *mongo.Client, collectionIdx CollectionIndex) {
 
-	//coll := dbClient.Database(dbVars.Name).Collection(collectionName)
+	coll := dbClient.Database(dbVars.Name).Collection(dbVars.Collections[collectionIdx])
 
 	for _, kvWrite := range kvWrites {
 
 		var data parser.ObjectData
-
-		if collectionName == "track_trace" {
+		switch collectionIdx {
+		case TRACK_TRACE:
 			data = &parser.EventData{}
-			err := json.Unmarshal(kvWrite.Value, data)
-			if err != nil {
-				panic(err)
-			}
-		}
-
-		if collectionName == "import" {
+		case IMPORT:
 			data = &parser.ImportData{}
-			err := json.Unmarshal(kvWrite.Value, data)
-			if err != nil {
-				panic(err)
-			}
 		}
 
+		err := json.Unmarshal(kvWrite.Value, data)
+		if err != nil {
+			panic(err)
+		}
 		if data.IsValid() {
-			log.Println(data)
+			//log.Println(data)
+			result, err := coll.InsertOne(ctx.TODO(), data)
+			if err != nil {
+				panic(fmt.Errorf("failed to insert document to collection: %v", err))
+			}
 
-			/*
-				result, err := coll.InsertOne(ctx.TODO(), data)
-				if err != nil {
-					panic(fmt.Errorf("failed to insert document to collection: %v", err))
-				}
-
-				log.Printf("Inserted document with _id: %v\n", result.InsertedID)
-			*/
+			log.Printf("Inserted document with _id: %v\n", result.InsertedID)
 		}
 	}
 
