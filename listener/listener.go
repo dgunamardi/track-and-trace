@@ -24,7 +24,7 @@ import (
 	eventClient "github.com/hyperledger/fabric-sdk-go/pkg/client/event"
 
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	//	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type ListenArgs struct {
@@ -117,6 +117,7 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 	if listenArgs.SeekType == seek.Newest {
 		skipEvent = true
 	}
+	skipEvent = false
 
 	for events := range blockEvents {
 		if skipEvent {
@@ -130,16 +131,18 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 		parsedBlock := parser.Block{}
 		parsedBlock.Init(events.Block)
 
-		// === CONNECT TO MONGO DB ===
-		dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
-		if err != nil {
-			panic(fmt.Errorf("failed to create client: %v", err))
-		}
-		defer func() {
-			if err = dbClient.Disconnect(ctx.TODO()); err != nil {
-				panic(err)
+		/*
+			// === CONNECT TO MONGO DB ===
+			dbClient, err := mongo.Connect(ctx.TODO(), options.Client().ApplyURI(dbVars.URI))
+			if err != nil {
+				panic(fmt.Errorf("failed to create client: %v", err))
 			}
-		}()
+			defer func() {
+				if err = dbClient.Disconnect(ctx.TODO()); err != nil {
+					panic(err)
+				}
+			}()
+		*/
 
 		// === UNWRAP THE ENVELOPE ===
 		envelopes := parsedBlock.BlockData.Envelopes
@@ -168,7 +171,10 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 						continue
 					}
 					kvWrites := nsRWSet.RWSet.KVWrites
-					InsertToDB(kvWrites, dbClient, collectionIdx)
+					log.Println(kvWrites)
+					/*
+						InsertToDB(kvWrites, dbClient, collectionIdx)
+					*/
 					//InsertToDB(kvWrites, nil, collectionIdx)
 				}
 			}
