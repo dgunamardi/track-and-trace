@@ -1,0 +1,37 @@
+[{
+  "_id": {
+    "$oid": "6332ae638990bf686b787864"
+  },
+  "gtin": "850027987040",
+  "brand_name": "Empanadas Valrico",
+  "item_desc": "Steak Empanadas",
+  "trader_name": "trader_name_1",
+  "city_of_origin": "Sarasota",
+  "city_location": "27.3821562,-82.5381852",
+  "country_code": "US",
+  "product_qty": "100",
+  "date_of_arrival": "2022-09-27T09:48:13.373527",
+  "health_cert_num": "c564af3a-372f-42d4-b0e0-d87ff378e459",
+  "uen_no": "61bd1174-1bc4-4278-a065-88713c606816",
+  "farm_code": "5f6d8f38-4680-4caa-b27d-c5002c9ea0ea",
+  "ccp_no": "842b4851-1faf-401f-ac77-14fe26755a39",
+  "inward_mode": "air"
+},{
+  "_id": {
+    "$oid": "6332ae638990bf686b787865"
+  },
+  "gtin": "041415393800",
+  "brand_name": "Apron",
+  "item_desc": "Bacon-Cheddar Smothered Chicken",
+  "trader_name": "trader_name_2",
+  "city_of_origin": "Dover",
+  "city_location": "28.0411145,-81.9908742",
+  "country_code": "US",
+  "product_qty": "100",
+  "date_of_arrival": "2022-09-27T09:48:13.373527",
+  "health_cert_num": "e89572fb-6986-480c-8677-adb2784d278f",
+  "uen_no": "7efe6da1-f624-4a52-909b-7d298c74e561",
+  "farm_code": "fa2603d1-e82a-4739-873a-6b9cf6f4f11c",
+  "ccp_no": "9ca817f6-ab4c-4ac1-8ef1-cef3f5a2d444",
+  "inward_mode": "air"
+}]

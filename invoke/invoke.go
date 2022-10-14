@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	cfg "earhart.com/config"
 	"earhart.com/parser"
@@ -52,13 +53,24 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 		SubmitData(client, args[1], parser.EVENT_DATA)
 	case "-si":
 		SubmitData(client, args[1], parser.IMPORT_DATA)
+	case "-sp":
+		SubmitData(client, args[1], parser.PRODUCT_DATA)
+	case "-sr":
+		SubmitData(client, args[1], parser.RECALL_DATA)
 	default:
-		panic("argument is not available. Available Arguments:\n-s for 'submitTransaction'\n-q for 'getOwnerCredit'\n-sf for 'submitTransactionFromFile'\n")
+		panic("argument is not available. Available Arguments: -q, -se, -si, -sp, -sr'\n")
 	}
 }
 
 func SubmitData(client *clientChannel.Client, args string, objectType parser.ObjectType) {
-	dataset := parser.CSVToData(args, objectType)
+	fileExt := filepath.Ext(args)
+	dataset []parser.ObjectData
+	switch fileExt {
+	case ".csv":
+		dataset = parser.CSVToData(args, objectType)
+	case ".json":
+		dataset = parser.JSONToData(args, objectType)
+	}
 
 	var fcn string
 
@@ -67,6 +79,10 @@ func SubmitData(client *clientChannel.Client, args string, objectType parser.Obj
 		fcn = "AddTNTData"
 	case parser.IMPORT_DATA:
 		fcn = "AddIMPData"
+	case parser.PRODUCT_DATA:
+		fcn = "AddPROData"
+	case parser.RECALL_DATA:
+		fcn = "AddRECData"
 	}
 
 	for _, data := range dataset {

@@ -132,6 +132,52 @@ func (s *SmartContract) AddIMPData(ctx contractapi.TransactionContextInterface, 
 	return string(resJson), nil
 }
 
+func (s *SmartContract) AddPROData(ctx contractapi.TransactionContextInterface, key string, accountID string, importData string) (string, error) {
+	ctx.GetStub().PutState(key, []byte(importData))
+
+	txid := ctx.GetStub().GetTxID()
+	timestamp, err := ctx.GetStub().GetTxTimestamp()
+	if err != nil {
+		return "", err
+	}
+	txinfo := TxInfo{txid, strconv.FormatInt(timestamp.GetSeconds(), 10)}
+	resJson, err := json.Marshal(txinfo)
+	if err != nil {
+		return "", err
+	}
+
+	err = s.AddCoin(ctx, accountID)
+	if err != nil {
+		return "", err
+	}
+	//return ctx.GetStub().PutState(OutputGTIN, eventJSON)
+	//return ctx.GetStub().setEvent("addCTE", eventJSON)
+	return string(resJson), nil
+}
+
+func (s *SmartContract) AddRECData(ctx contractapi.TransactionContextInterface, key string, accountID string, importData string) (string, error) {
+	ctx.GetStub().PutState(key, []byte(importData))
+
+	txid := ctx.GetStub().GetTxID()
+	timestamp, err := ctx.GetStub().GetTxTimestamp()
+	if err != nil {
+		return "", err
+	}
+	txinfo := TxInfo{txid, strconv.FormatInt(timestamp.GetSeconds(), 10)}
+	resJson, err := json.Marshal(txinfo)
+	if err != nil {
+		return "", err
+	}
+
+	err = s.AddCoin(ctx, accountID)
+	if err != nil {
+		return "", err
+	}
+	//return ctx.GetStub().PutState(OutputGTIN, eventJSON)
+	//return ctx.GetStub().setEvent("addCTE", eventJSON)
+	return string(resJson), nil
+}
+
 // ReadAsset returns the asset stored in the world state with given id.
 func (s *SmartContract) ReadAsset(ctx contractapi.TransactionContextInterface, id string) (*Asset, error) {
 	assetJSON, err := ctx.GetStub().GetState(id)

@@ -1,0 +1,661 @@
+[{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1846"
+  },
+  "gtin": "3228020114225",
+  "gln": "3012280200107",
+  "name": "Sainte maure Kitsejuust",
+  "company_name": "LACTALIS FROMAGES",
+  "street_address": "BD ARAGO",
+  "city": "LAVAL CEDEX 9",
+  "country_code": "FR",
+  "postal_code": "53093",
+  "location": "48.5176132,-2.7727433",
+  "img": "sainte_maure_kitsejuust.jpg",
+  "ingredients": [
+    "Pasteurized Cow Milk",
+    "Salt",
+    "Starter Culture",
+    "Microbial Rennet"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 3468353
+    },
+    {
+      "retailer": "Giant",
+      "qty": 2434267
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 2615168
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 3597124
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 2897197
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1847"
+  },
+  "gtin": "074570004003",
+  "gln": "0074570000005",
+  "name": "HÃ¤agen-Dazs Vanilla Pint",
+  "company_name": "The Haagen-Dazs Company, Inc.",
+  "street_address": "C/O GENERAL MILLS-PILLSBURY",
+  "city": "MINNEAPOLIS",
+  "country_code": "US",
+  "postal_code": "55440-1113",
+  "location": "51.5463949,-0.4792561",
+  "img": "haagen-dazs_vanilla_pint.jpg",
+  "ingredients": [
+    "Cream",
+    "Skimmed Milk",
+    "Cane Sugar",
+    "Egg Yolk",
+    "Vanilla Extract"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 2791208
+    },
+    {
+      "retailer": "Giant",
+      "qty": 2354523
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 4782725
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 4930448
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 1198526
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1848"
+  },
+  "gtin": "070074575131",
+  "gln": "0813337010006",
+  "name": "Similic Alimentum 1 eyeQ",
+  "company_name": "Abbott Laboratories Inc",
+  "street_address": "200 ABBOTT PARK RD",
+  "city": "ABBOTT PARK",
+  "country_code": "US",
+  "postal_code": "60064-6371",
+  "location": "42.3027159,-87.8882056",
+  "img": "similic_alimentum_1_eyeq.jpg",
+  "ingredients": [],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 2707877
+    },
+    {
+      "retailer": "Giant",
+      "qty": 3577116
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 1151325
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 1943159
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 3113420
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1849"
+  },
+  "gtin": "711844110038",
+  "gln": "0711844000001",
+  "name": "ABC Sweet Soy Sauce",
+  "company_name": "Pt. Abc Central Food Industry",
+  "street_address": "P.O. Box 1097",
+  "city": "JAKARTA",
+  "country_code": "ID",
+  "postal_code": "11001",
+  "location": "-6.224185,106.8057165",
+  "img": "abc_sweet_soy_sauce.jpg",
+  "ingredients": [
+    "Sugar",
+    "Soy Extract",
+    "Water",
+    "Salt",
+    "Caramel Color",
+    "Citric Acid",
+    "Xanthan Gum",
+    "Wheat"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 3154088
+    },
+    {
+      "retailer": "Giant",
+      "qty": 1449256
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 2941885
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 1810369
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 1385254
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a184a"
+  },
+  "gtin": "711844120150",
+  "gln": "0711844000001",
+  "name": "ABC Sambal Ayam Goreng",
+  "company_name": "Pt. Abc Central Food Industry",
+  "street_address": "P.O. Box 1097",
+  "city": "JAKARTA",
+  "country_code": "ID",
+  "postal_code": "11001",
+  "location": "-6.224185,106.8057165",
+  "img": "abc_sambal_ayam_goreng.jpg",
+  "ingredients": [
+    "Chilli Peppers",
+    "Sugar",
+    "Water",
+    "Salt",
+    "Modified Tapioca Starch",
+    "Garlic",
+    "Shallot",
+    "Tomato Paste",
+    "Monosodium Glutamate",
+    "Acetic Acid",
+    "Citric Acid",
+    "Sodium Benzoate",
+    "Sodium Metabisulfite"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 3701931
+    },
+    {
+      "retailer": "Giant",
+      "qty": 2997953
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 1958496
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 2553813
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 2414058
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a184b"
+  },
+  "gtin": "850027987040",
+  "gln": "0850027987002",
+  "name": "Steak Empanadas 10 Pieces",
+  "company_name": "Empanadas Valrico Inc",
+  "street_address": "1617 Desoto Rd",
+  "city": "Sarasota",
+  "country_code": "US",
+  "postal_code": "34234",
+  "location": "27.3821562,-82.5381852",
+  "img": "empanadas_valrico.jpg",
+  "ingredients": [
+    "Corn Flour",
+    "Unsalted Butter",
+    "Water",
+    "Salt",
+    "Flank Steak",
+    "Potatoes",
+    "Onion",
+    "Green Bell Pepper",
+    "Green Onion",
+    "Spice",
+    "Salt"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 4820939
+    },
+    {
+      "retailer": "Giant",
+      "qty": 1624883
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 1844797
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 2211852
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 2854758
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a184c"
+  },
+  "gtin": "850027987064",
+  "gln": "0850027987002",
+  "name": "Chicken Empanadas 10 Pieces",
+  "company_name": "Empanadas Valrico Inc",
+  "street_address": "1617 Desoto Rd",
+  "city": "Sarasota",
+  "country_code": "US",
+  "postal_code": "34234",
+  "location": "27.3821562,-82.5381852",
+  "img": "empanadas_valrico.jpg",
+  "ingredients": [
+    "Corn Flour",
+    "Unsalted Butter",
+    "Water",
+    "Salt",
+    "Shrreded Chicken",
+    "Potatoes",
+    "Onion",
+    "Green Bell Pepper",
+    "Green Onion",
+    "Spice",
+    "Salt"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 3930229
+    },
+    {
+      "retailer": "Giant",
+      "qty": 4868456
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 3377507
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 2381288
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 4742461
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a184d"
+  },
+  "gtin": "850027987026",
+  "gln": "0850027987002",
+  "name": "Steak Empanadas 25 Pieces",
+  "company_name": "Empanadas Valrico Inc",
+  "street_address": "1617 Desoto Rd",
+  "city": "Sarasota",
+  "country_code": "US",
+  "postal_code": "34234",
+  "location": "27.3821562,-82.5381852",
+  "img": "empanadas_valrico.jpg",
+  "ingredients": [
+    "Corn Flour",
+    "Unsalted Butter",
+    "Water",
+    "Salt",
+    "Shrreded Chicken",
+    "Potatoes",
+    "Onion",
+    "Green Bell Pepper",
+    "Green Onion",
+    "Spice",
+    "Salt"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 3252845
+    },
+    {
+      "retailer": "Giant",
+      "qty": 3778743
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 4739827
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 3166700
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 3749681
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a184e"
+  },
+  "gtin": "850027987002",
+  "gln": "0850027987002",
+  "name": "Chicken Empanadas 25 Pieces",
+  "company_name": "Empanadas Valrico Inc",
+  "street_address": "1617 Desoto Rd",
+  "city": "Sarasota",
+  "country_code": "US",
+  "postal_code": "34234",
+  "location": "27.3821562,-82.5381852",
+  "img": "empanadas_valrico.jpg",
+  "ingredients": [
+    "Corn Flour",
+    "Unsalted Butter",
+    "Water",
+    "Salt",
+    "Flank Steak",
+    "Potatoes",
+    "Onion",
+    "Green Bell Pepper",
+    "Green Onion",
+    "Spice",
+    "Salt"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 3390909
+    },
+    {
+      "retailer": "Giant",
+      "qty": 2636822
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 1048170
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 3040965
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 3389284
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a184f"
+  },
+  "gtin": "041415395800",
+  "gln": "0850027987002",
+  "name": "Bacon-Cheddar Smothered Chicken",
+  "company_name": "Publix Super Markets, Inc.",
+  "street_address": "1936 GEORGE JENKINS BLVD",
+  "city": "LAKELAND",
+  "country_code": "US",
+  "postal_code": "33815-3760",
+  "location": "28.0411145,-81.9908742",
+  "img": "bacon-cheddar_smothered_chicken.jpg",
+  "ingredients": [
+    "Boneless Chicken Breast",
+    "Garlic",
+    "Baby Potatoes",
+    "Green Bell Pepper",
+    "Red Chilli Pepper",
+    "Parmesan Cheese",
+    "Salt",
+    "Brocolli",
+    "Bacon"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 3207093
+    },
+    {
+      "retailer": "Giant",
+      "qty": 1512360
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 3760842
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 1585210
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 3929660
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1850"
+  },
+  "gtin": "024182003642",
+  "gln": "0024182000009",
+  "name": "Eden Organic Apple Juice 1.82 L",
+  "company_name": "Eden Foods, Inc.",
+  "street_address": "701 TECUMSEH RD",
+  "city": "CLINTON",
+  "country_code": "US",
+  "postal_code": "49236-9599",
+  "location": "44.1577763,-85.9951109",
+  "img": "eden_organic_apple_juice.jpg",
+  "ingredients": [
+    "Organic Apple Juice"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 4247827
+    },
+    {
+      "retailer": "Giant",
+      "qty": 4268344
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 2567093
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 2668328
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 3940136
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1851"
+  },
+  "gtin": "024182006072",
+  "gln": "0024182000009",
+  "name": "Eden Organic Apple Juice 946 ml",
+  "company_name": "Eden Foods, Inc.",
+  "street_address": "701 TECUMSEH RD",
+  "city": "CLINTON",
+  "country_code": "US",
+  "postal_code": "49236-9599",
+  "location": "44.1577763,-85.9951109",
+  "img": "eden_organic_apple_juice.jpg",
+  "ingredients": [
+    "Organic Apple Juice"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 3863811
+    },
+    {
+      "retailer": "Giant",
+      "qty": 2627312
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 2977282
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 2667774
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 2280258
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1852"
+  },
+  "gtin": "6001240100011",
+  "gln": "6001111000006",
+  "name": "Ceres 100% Apple Juice 1L",
+  "company_name": "Pioneer Foods Groceries (Pty) Ltd.",
+  "street_address": "1 Sportica Crescent",
+  "city": "Tygervalley",
+  "country_code": "ZA",
+  "postal_code": "7530",
+  "location": "-33.8772388,18.6293177",
+  "img": "ceres_apple_juice.jpg",
+  "ingredients": [
+    "Pure Apple Juice",
+    "Vitamin C"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 3536705
+    },
+    {
+      "retailer": "Giant",
+      "qty": 3763163
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 3666440
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 3134650
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 1211667
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1853"
+  },
+  "gtin": "6001240200018",
+  "gln": "6001111000006",
+  "name": "Ceres 100% Apple Juice 200ml",
+  "company_name": "Pioneer Foods Groceries (Pty) Ltd.",
+  "street_address": "1 Sportica Crescent",
+  "city": "Tygervalley",
+  "country_code": "ZA",
+  "postal_code": "7530",
+  "location": "-33.8772388,18.6293177",
+  "img": "ceres_apple_juice.jpg",
+  "ingredients": [
+    "Pure Apple Juice",
+    "Vitamin C"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 4982000
+    },
+    {
+      "retailer": "Giant",
+      "qty": 1583167
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 3824386
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 2518531
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 1614139
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1854"
+  },
+  "gtin": "9315251901190",
+  "gln": "9377778053608",
+  "name": "Pure Tassie Organic Apple and Blackcurrant Juice",
+  "company_name": "Juicy Isle Proprietary Limited",
+  "street_address": "PO Box 1610",
+  "city": "MORNINGTON",
+  "country_code": "AU",
+  "postal_code": "7018",
+  "location": "-38.7590559,146.7123365",
+  "img": "pure_tassie_organic_apple_and_blackcurrant_juice.jpg",
+  "ingredients": [
+    "Pure Apple Juice",
+    "Blackcurrant Juice"
+  ],
+  "retailer_qty": [
+    {
+      "retailer": "NTUC",
+      "qty": 2726052
+    },
+    {
+      "retailer": "Giant",
+      "qty": 4372892
+    },
+    {
+      "retailer": "Cold Storage",
+      "qty": 4730127
+    },
+    {
+      "retailer": "Shopee",
+      "qty": 4432098
+    },
+    {
+      "retailer": "Manufacturer",
+      "qty": 4245520
+    }
+  ]
+}]

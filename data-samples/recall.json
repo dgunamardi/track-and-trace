@@ -1,0 +1,444 @@
+[{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1855"
+  },
+  "information_src": "SFA",
+  "url": "https://www.sfa.gov.sg/newsroom/ava-food-alerts/recall-of-président-sainte-maure-cheese-200g-due-to-presence-of-foreign-matter",
+  "summary": "Recall of “Président Sainte Maure Cheese 200g” due to presence of foreign matter",
+  "recall_date": "14/09/2022",
+  "date_end": "",
+  "product": [
+    {
+      "gtin": "3228020114225",
+      "name": "Sainte maure Kitsejuust",
+      "expiry_date": [
+        {
+          "start_date": "01/11/2022",
+          "end_date": ""
+        },
+        {
+          "start_date": "05/11/2022",
+          "end_date": ""
+        },
+        {
+          "start_date": "15/11/2022",
+          "end_date": ""
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "product_contamination"
+  ],
+  "risk_level": 1,
+  "company_name": "LACTALIS FROMAGES",
+  "location": "48.8348562,2.3400919",
+  "img": [
+    "sfa_case_1_1.pdf"
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1856"
+  },
+  "information_src": "SFA",
+  "url": "https://www.sfa.gov.sg/newsroom/ava-food-alerts/recall-of-häagen-dazs-vanilla-ice-cream-from-france-due-to-presence-of-ethylene-oxide",
+  "summary": "Recall of Häagen-Dazs Vanilla ice cream from France due to presence of Ethylene Oxide",
+  "recall_date": "01/07/2022",
+  "date_end": "08/10/2022",
+  "product": [
+    {
+      "gtin": "074570004003",
+      "name": "Häagen-Dazs Vanilla Pint",
+      "expiry_date": [
+        {
+          "start_date": "07/04/2022",
+          "end_date": "21/07/2023"
+        }
+      ]
+    },
+    {
+      "gtin": "074570082025",
+      "name": "Häagen-Dazs Vanilla Mini Cups",
+      "expiry_date": [
+        {
+          "start_date": "07/04/2022",
+          "end_date": "21/07/2023"
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "product_contamination"
+  ],
+  "risk_level": 1,
+  "company_name": "The Haagen-Dazs Company, Inc.",
+  "location": "51.5463949,-0.4792561",
+  "img": [
+    "sfa_case_2_1.pdf"
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1857"
+  },
+  "information_src": "SFA",
+  "url": "https://www.sfa.gov.sg/docs/default-source/default-document-library/sfa-media-release---20220219-recall-of-abbott-alimentum-powdered-infant-formula-from-usa-due-to-possible-presence-of-cronobacter-sakazakii-and-salmonella-newport.pdf",
+  "summary": "Recall of Abbott Alimentum powdered infant formula from USA due to possible presence of Cronobacter sakazakii and Salmonella Newport",
+  "recall_date": "19/02/2022",
+  "date_end": "17/06/2022",
+  "product": [
+    {
+      "gtin": [
+        "070074575131"
+      ],
+      "name": "Similic Alimentum 1 eyeQ",
+      "expiry_date": [
+        {
+          "start_date": "01/04/2022",
+          "end_date": "*"
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "unfit_for_human_consumption",
+    "product_contamination"
+  ],
+  "risk_level": 1,
+  "company_name": "Abbott Laboratories Inc",
+  "location": "42.3027159,-87.8882056",
+  "img": [
+    "sfa_case_3_1.pdf"
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1858"
+  },
+  "information_src": "SFA",
+  "url": "https://www.sfa.gov.sg/docs/default-source/default-document-library/20220906-sfa-media-release---recall-of-fukutoku-seika-soft-cream-wafers-abc-sweet-soy-sauce-abc-sambal-ayam-goreng-sauce-due-to-presence-of-undeclared-allergensa5a5a7d768b54347b5b7006633a9bcc6.pdf",
+  "summary": "Recall of Fukutoku Seika soft cream wafers, ABC Sweet Soy Sauce, ABC Sambal Ayam Goreng Sauce due to presence of undeclared allergens",
+  "recall_date": "06/09/2022",
+  "date_end": "",
+  "product": [
+    {
+      "gtin": "711844110038",
+      "name": "ABC Sweet Soy Sauce",
+      "expiry_date": [
+        {
+          "start_date": "26/06/2024",
+          "end_date": ""
+        }
+      ]
+    },
+    {
+      "gtin": "711844120150",
+      "name": "Sambal Ayam Goreng",
+      "expiry_date": [
+        {
+          "start_date": "06/01/2024",
+          "end_date": ""
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "undeclared_allergen"
+  ],
+  "risk_level": 2,
+  "company_name": "Pt. Abc Central Food Industry",
+  "location": "-6.224185,106.8057165",
+  "img": [
+    "sfa_case_4_1.pdf"
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a1859"
+  },
+  "information_src": "USDA",
+  "url": "https://www.fsis.usda.gov/recalls-alerts/empanadas-valrico-inc--recalls-beef-and-chicken-empanada-products-produced-without",
+  "summary": "WASHINGTON, Sept. 23, 2022 Empanadas Valrico Inc., a Sarasota, Fla. establishment, is recalling approximately 6,247 pounds of beef and chicken empanada products that were produced without the benefit of federal inspection, the U.S. Department of Agricultureâ€™s Food Safety and Inspection Service (FSIS) announced today",
+  "recall_date": "23/09/2022",
+  "date_end": "",
+  "product": [
+    {
+      "gtin": "850027987040",
+      "name": "Steak Empanadas 10 Pieces",
+      "expiry_date": [
+        {
+          "start_date": "30/01/2023",
+          "end_date": ""
+        }
+      ]
+    },
+    {
+      "gtin": "850027987064",
+      "name": "Chiken Empanadas 10 Pieces",
+      "expiry_date": [
+        {
+          "start_date": "30/01/2023",
+          "end_date": ""
+        }
+      ]
+    },
+    {
+      "gtin": "850027987026",
+      "name": "Steak Empanadas 25 Pieces",
+      "expiry_date": [
+        {
+          "start_date": "30/01/2023",
+          "end_date": ""
+        }
+      ]
+    },
+    {
+      "gtin": "850027987002",
+      "name": "Chiken Empanadas 25 Pieces",
+      "expiry_date": [
+        {
+          "start_date": "30/01/2023",
+          "end_date": ""
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "produced_without_benefit_of_inspection"
+  ],
+  "risk_level": "1",
+  "company_name": "Empanadas Valrico",
+  "location": "27.3821562,-82.5381852",
+  "img": [
+    "usda_case_1_1.pdf"
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a185a"
+  },
+  "information_src": "USDA",
+  "url": "https://www.fsis.usda.gov/recalls-alerts/fsis-issues-public-health-alert-chicken-entree-products-due-misbranding-and",
+  "summary": "WASHINGTON, Sept. 16, 2022 The U.S. Department of Agriculture's Food Safety and Inspection Service (FSIS) is issuing a public health alert due to concerns that the raw, ready-to-cook chicken entrÃ©e products may contain egg, a known allergen, which is not declared on the finished",
+  "recall_date": "16/09/2022",
+  "date_end": "",
+  "product": [
+    {
+      "gtin": "041415395800",
+      "name": "Bacon-Cheddar Smothered Chicken",
+      "expiry_date": [
+        {
+          "start_date": "21/09/2022",
+          "end_date": ""
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "misbranding",
+    "unreported_allergen"
+  ],
+  "risk_level": "4",
+  "company_name": "Publix Super Markets, Inc.",
+  "location": "28.0411145,-81.9908742",
+  "img": [
+    "usda_case_2_1.pdf"
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a185b"
+  },
+  "information_src": "USDA",
+  "url": "https://www.fsis.usda.gov/recalls-alerts/america-new-york-ri-wang-food-group-co--ltd-recalls-ready-eat-pork-sausage-products",
+  "summary": "WASHINGTON, May 18, 2022 America New York Ri Wang Food Group Co., Ltd., a Bay Shore, N.Y. establishment, is recalling approximately 14,635 pounds of ready-to-eat (RTE) sausage sticks and luncheon loaf products that may be contaminated with extraneous materials, specifically metal, the U.S. Department",
+  "recall_date": "18/05/2022",
+  "date_end": "08/17/2022",
+  "product": [
+    {
+      "gtin": "726754471681",
+      "name": "Sausage Stick Luncheon 10oz",
+      "expiry_date": [
+        {
+          "start_date": "13/11/2022",
+          "end_date": ""
+        }
+      ]
+    },
+    {
+      "gtin": "616641467791",
+      "name": "Sausage Stick Luncheon 16oz",
+      "expiry_date": [
+        {
+          "start_date": "11/11/2022",
+          "end_date": ""
+        }
+      ]
+    },
+    {
+      "gtin": "726754471674",
+      "name": "Sausage Stick Luncheon 23oz 10 Pieces",
+      "expiry_date": [
+        {
+          "start_date": "13/11/2022",
+          "end_date": ""
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "mislabelling",
+    "product_contamination"
+  ],
+  "risk_level": "1",
+  "company_name": "AMERICA NEW YORK RI WANG FOOD GROUP CO., LTD.",
+  "location": "35.7356974,-78.8053157",
+  "img": [
+    "usda_case_3_1.pdf"
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a185c"
+  },
+  "information_src": "USDA",
+  "url": "https://www.fsis.usda.gov/recalls-alerts/dannys-sub-and-pizza-recalls-meat-pizza-products-produced-without-benefit-inspection",
+  "summary": "WASHINGTON, July 28, 2022 Danny's Sub and Pizza, a Cape Coral, Fla. establishment doing business as Danny's Cuban Pizza, is recalling approximately 19,275 pounds of frozen meat pizza products that were produced without the benefit of federal inspection, the U.S. Department of Agriculture's Food",
+  "recall_date": "28/07/2022",
+  "date_end": "",
+  "product": [
+    {
+      "gtin": "724049643836",
+      "name": "Danny's Cuban Pizza Hawaiian",
+      "expiry_date": [
+        {
+          "start_date": "",
+          "end_date": ""
+        }
+      ]
+    },
+    {
+      "gtin": "724049643805",
+      "name": "Dannys Cuban Pizza Pepperoni",
+      "expiry_date": [
+        {
+          "start_date": "",
+          "end_date": ""
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "produced_without_benefit_of_inspection"
+  ],
+  "risk_level": "1",
+  "company_name": "Danny's Sub and Pizza",
+  "location": "38.246137,-77.494744",
+  "img": [
+    "usda_case_4_1.pdf"
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a185d"
+  },
+  "information_src": "RAPPELS",
+  "url": "https://recalls-rappels.canada.ca/en/alert-recall/eden-brand-organic-apple-juice-recalled-due-patulin",
+  "summary": "Product: Organic Apple Juice Issue: Food - Chemical - Contamination What to do: Do not use, sell, serve or distribute the affected product. Audience: Retail",
+  "recall_date": "15/09/2022",
+  "date_end": "",
+  "product": [
+    {
+      "gtin": "024182003642",
+      "name": "Eden Organic Apple Juice 1.82 L",
+      "expiry_date": [
+        {
+          "start_date": "",
+          "end_date": ""
+        }
+      ]
+    },
+    {
+      "gtin": "024182006072",
+      "name": "Eden Organic Apple Juice 946 ml",
+      "expiry_date": [
+        {
+          "start_date": "",
+          "end_date": ""
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "product_contamination"
+  ],
+  "risk_level": "1",
+  "company_name": "Eden Foods, Inc.",
+  "location": "44.1577763,-85.9951109",
+  "img": [
+    "rappels_case_1_1.jpg"
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a185e"
+  },
+  "information_src": "STRAITTIMES",
+  "url": "https://www.straitstimes.com/singapore/consumer/ceres-100-apple-juice-recalled-after-organic-compound-that-can-induce-nausea",
+  "summary": "SINGAPORE - Batches of an apple juice product are being recalled after elevated levels of patulin were detected, the Singapore Food Agency (SFA) said on Friday (Oct 15).",
+  "recall_date": "15/09/2021",
+  "date_end": "",
+  "product": [
+    {
+      "gtin": "6001240100011",
+      "name": "Ceres 100% Apple Juice 1L",
+      "expiry_date": [
+        {
+          "start_date": "17/06/2022",
+          "end_date": ""
+        }
+      ]
+    },
+    {
+      "gtin": "6001240200018",
+      "name": "Ceres 100% Apple Juice 200ml",
+      "expiry_date": [
+        {
+          "start_date": "14/06/2022",
+          "end_date": ""
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "product_contamination"
+  ],
+  "risk_level": "1",
+  "company_name": "Pioneer Foods Groceries (Pty) Ltd.",
+  "location": "-33.8772388,18.6293177",
+  "img": [
+    "st_case_1_1.jpg"
+  ]
+},{
+  "_id": {
+    "$oid": "6346677fb5ebfa73fe7a185f"
+  },
+  "information_src": "STRAITTIMES",
+  "url": "https://www.straitstimes.com/singapore/fruit-juice-product-from-australia-recalled-due-to-exceeded-level-of-a-mycotoxin",
+  "summary": "SINGAPORE - The Singapore Food Agency (SFA) has recalled a fruit juice product originating from Australia after the level of patulin, a mycotoxin, had exceeded the maximum limit in fruit juice.",
+  "recall_date": "21/04/2022",
+  "date_end": "",
+  "product": [
+    {
+      "gtin": "9315251901190",
+      "name": "Pure Tassie Organic Apple and Blackcurrant Juice",
+      "expiry_date": [
+        {
+          "start_date": "28/07/2022",
+          "end_date": "29/09/2022"
+        }
+      ]
+    }
+  ],
+  "cause": [
+    "product_contamination"
+  ],
+  "risk_level": "1",
+  "company_name": "Juicy Isle Proprietary Limited",
+  "location": "-38.7590559,146.7123365",
+  "img": [
+    "st_case_2_1.jpg"
+  ]
+}]
