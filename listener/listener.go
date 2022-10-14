@@ -50,6 +50,8 @@ var (
 		Collections: []string{
 			"track_trace",
 			"import",
+			"product",
+			"recall",
 		},
 	}
 )
@@ -187,8 +189,8 @@ type CollectionIndex int32
 const (
 	TRACK_TRACE CollectionIndex = 0
 	IMPORT      CollectionIndex = 1
-	PRODUCT		CollectionIndex = 2
-	RECALL		CollectionIndex = 3
+	PRODUCT     CollectionIndex = 2
+	RECALL      CollectionIndex = 3
 )
 
 func GetCollectionName(ccSpec *peer.ChaincodeSpec) CollectionIndex {
