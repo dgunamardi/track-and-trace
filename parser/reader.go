@@ -2,9 +2,7 @@ package parser
 
 import (
 	"encoding/csv"
-	"encoding/json"
 	"io"
-	"io/ioutil"
 	"os"
 )
 
@@ -38,37 +36,6 @@ func CSVToData(filePath string, objectType ObjectType) (dataset []ObjectData) {
 		case IMPORT_DATA:
 			var imp ImportData
 			imp.PopulateWithMap(record)
-			dataset = append(dataset, &imp)
-		}
-	}
-	return dataset
-}
-
-func JSONToData(filepath string, objectType ObjectType) (dataset []ObjectData) {
-	jsonFile, err := os.Open(filepath)
-	if err != nil {
-		panic(err)
-	}
-	defer jsonFile.Close()
-	byteArray, _ := ioutil.ReadAll(jsonFile)
-
-	switch objectType {
-	case PRODUCT_DATA:
-		var products []ProductData
-		json.Unmarshal(byteArray, &products)
-		for _, product := range products {
-			dataset = append(dataset, &product)
-		}
-	case RECALL_DATA:
-		var recalls []RecallData
-		json.Unmarshal(byteArray, &recalls)
-		for _, recall := range recalls {
-			dataset = append(dataset, &recall)
-		}
-	case IMPORT_DATA:
-		var imports []ImportData
-		json.Unmarshal(byteArray, &imports)
-		for _, imp := range imports {
 			dataset = append(dataset, &imp)
 		}
 	}

@@ -2,17 +2,19 @@ package main
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
 	"fmt"
+
+	"io/ioutil"
 
 	"earhart.com/parser"
 )
 
 func main() {
 	path := "..\\data-samples\\recall.json"
+	pathcsv := "..\\data-samples\\generate_import_data.csv"
 
 	fileExt := filepath.Ext(path)
 	fmt.Println(fileExt)
@@ -22,11 +24,16 @@ func main() {
 		panic(err)
 	}
 	defer jsonFile.Close()
-
 	byteArray, _ := ioutil.ReadAll(jsonFile)
-	var products []parser.RecallData
 
-	json.Unmarshal(byteArray, &products)
+	var recalls []parser.RecallData
+	json.Unmarshal(byteArray, &recalls)
 
-	fmt.Println(products[0])
+	//fmt.Println(recalls)
+
+	dataset := parser.JSONToData(path, parser.RECALL_DATA)
+	fmt.Println(dataset)
+
+	datasetcsv := parser.CSVToData(pathcsv, parser.IMPORT_DATA)
+	fmt.Println(datasetcsv)
 }
