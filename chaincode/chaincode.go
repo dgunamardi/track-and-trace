@@ -132,8 +132,8 @@ func (s *SmartContract) AddIMPData(ctx contractapi.TransactionContextInterface, 
 	return string(resJson), nil
 }
 
-func (s *SmartContract) AddPROData(ctx contractapi.TransactionContextInterface, key string, accountID string, importData string) (string, error) {
-	ctx.GetStub().PutState(key, []byte(importData))
+func (s *SmartContract) AddPROData(ctx contractapi.TransactionContextInterface, key string, accountID string, productData string) (string, error) {
+	ctx.GetStub().PutState(key, []byte(productData))
 
 	txid := ctx.GetStub().GetTxID()
 	timestamp, err := ctx.GetStub().GetTxTimestamp()
@@ -155,8 +155,8 @@ func (s *SmartContract) AddPROData(ctx contractapi.TransactionContextInterface, 
 	return string(resJson), nil
 }
 
-func (s *SmartContract) AddRECData(ctx contractapi.TransactionContextInterface, key string, accountID string, importData string) (string, error) {
-	ctx.GetStub().PutState(key, []byte(importData))
+func (s *SmartContract) AddRECData(ctx contractapi.TransactionContextInterface, key string, accountID string, recallData string) (string, error) {
+	ctx.GetStub().PutState(key, []byte(recallData))
 
 	txid := ctx.GetStub().GetTxID()
 	timestamp, err := ctx.GetStub().GetTxTimestamp()
