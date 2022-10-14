@@ -195,11 +195,17 @@ const (
 
 func GetCollectionName(ccSpec *peer.ChaincodeSpec) CollectionIndex {
 	fcnName := string(ccSpec.GetInput().GetArgs()[0])
+	if strings.Contains(fcnName, "TNT") {
+		return TRACK_TRACE
+	}
 	if strings.Contains(fcnName, "IMP") {
 		return IMPORT
 	}
-	if strings.Contains(fcnName, "TNT") {
-		return TRACK_TRACE
+	if strings.Contains(fcnName, "PRO") {
+		return PRODUCT
+	}
+	if strings.Contains(fcnName, "REC") {
+		return RECALL
 	}
 	return -1
 }
@@ -216,6 +222,10 @@ func InsertToDB(kvWrites []parser.KVWrite, dbClient *mongo.Client, collectionIdx
 			data = &parser.EventData{}
 		case IMPORT:
 			data = &parser.ImportData{}
+		case PRODUCT:
+			data = &parser.ProductData{}
+		case RECALL:
+			data = &parser.RecallData{}
 		}
 
 		err := json.Unmarshal(kvWrite.Value, data)
