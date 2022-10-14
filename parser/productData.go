@@ -42,5 +42,5 @@ func (txData *ProductData) IsValid() bool {
 }
 
 func (txData *ProductData) GetId() string {
-	return txData.Image
+	return txData.GLN
 }

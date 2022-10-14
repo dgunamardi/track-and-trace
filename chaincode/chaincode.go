@@ -103,6 +103,7 @@ func (s *SmartContract) AddTNTData(ctx contractapi.TransactionContextInterface, 
 	if err != nil {
 		return "", err
 	}
+
 	//return ctx.GetStub().PutState(OutputGTIN, eventJSON)
 	//return ctx.GetStub().setEvent("addCTE", eventJSON)
 	return string(resJson), nil
@@ -123,10 +124,11 @@ func (s *SmartContract) AddIMPData(ctx contractapi.TransactionContextInterface, 
 		return "", err
 	}
 
-	err = s.AddCoin(ctx, accountID)
-	if err != nil {
-		return "", err
-	}
+	//err = s.AddCoin(ctx, accountID)
+	//if err != nil {
+	//	return "", err
+	//}
+
 	//return ctx.GetStub().PutState(OutputGTIN, eventJSON)
 	//return ctx.GetStub().setEvent("addCTE", eventJSON)
 	return string(resJson), nil
@@ -150,6 +152,7 @@ func (s *SmartContract) AddPROData(ctx contractapi.TransactionContextInterface, 
 	//if err != nil {
 	//	return "", err
 	//}
+
 	//return ctx.GetStub().PutState(OutputGTIN, eventJSON)
 	//return ctx.GetStub().setEvent("addCTE", eventJSON)
 	return string(resJson), nil
@@ -169,10 +172,11 @@ func (s *SmartContract) AddRECData(ctx contractapi.TransactionContextInterface, 
 		return "", err
 	}
 
-	err = s.AddCoin(ctx, accountID)
-	if err != nil {
-		return "", err
-	}
+	//err = s.AddCoin(ctx, accountID)
+	//if err != nil {
+	//	return "", err
+	//}
+
 	//return ctx.GetStub().PutState(OutputGTIN, eventJSON)
 	//return ctx.GetStub().setEvent("addCTE", eventJSON)
 	return string(resJson), nil

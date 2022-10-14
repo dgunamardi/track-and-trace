@@ -119,7 +119,6 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 	if listenArgs.SeekType == seek.Newest {
 		skipEvent = true
 	}
-	skipEvent = false
 
 	for events := range blockEvents {
 		if skipEvent {
