@@ -50,7 +50,6 @@ func JSONToData(filepath string, objectType ObjectType) (dataset []ObjectData) {
 		panic(err)
 	}
 	defer jsonFile.Close()
-
 	byteArray, _ := ioutil.ReadAll(jsonFile)
 
 	switch objectType {
