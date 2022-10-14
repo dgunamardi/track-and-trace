@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
+	"path/filepath"
 
 	cfg "earhart.com/config"
 	"earhart.com/parser"
@@ -52,11 +52,11 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 	case "-se":
 		SubmitData(client, args[1], parser.EVENT_DATA)
 	case "-si":
-		SubmitImportData(client, args[1], parser.IMPORT_DATA)
+		SubmitData(client, args[1], parser.IMPORT_DATA)
 	case "-sp":
-		SubmitProductData(client, args[1], parser.PRODUCT_DATA)
+		SubmitData(client, args[1], parser.PRODUCT_DATA)
 	case "-sr":
-		SubmitRecallData(client, args[1], parser.RECALL_DATA)
+		SubmitData(client, args[1], parser.RECALL_DATA)
 	default:
 		panic("argument is not available. Available Arguments: -q, -se, -si, -sp, -sr'\n")
 	}
@@ -64,7 +64,15 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 
 // csv version
 func SubmitData(client *clientChannel.Client, args string, objectType parser.ObjectType) {
-	dataset := parser.CSVToData(args, objectType)
+	fileExt := filepath.Ext(args)
+
+	var dataset []parser.ObjectData
+	switch fileExt {
+	case ".csv":
+		dataset = parser.CSVToData(args, objectType)
+	case ".json":
+		dataset = parser.JSONToData(args, objectType)
+	}
 
 	var fcn string
 
@@ -73,6 +81,10 @@ func SubmitData(client *clientChannel.Client, args string, objectType parser.Obj
 		fcn = "AddTNTData"
 	case parser.IMPORT_DATA:
 		fcn = "AddIMPData"
+	case parser.PRODUCT_DATA:
+		fcn = "AddPROData"
+	case parser.RECALL_DATA:
+		fcn = "AddRECData"
 	}
 
 	for _, data := range dataset {
@@ -89,96 +101,6 @@ func SubmitData(client *clientChannel.Client, args string, objectType parser.Obj
 			[]byte(dataString),
 		}
 
-		SubmitTransaction(client, byteArgs, fcn)
-	}
-}
-
-func SubmitProductData(client *clientChannel.Client, args string, objectType parser.ObjectType) {
-	jsonFile, err := os.Open(args)
-	if err != nil {
-		panic(err)
-	}
-	defer jsonFile.Close()
-	byteArray, _ := ioutil.ReadAll(jsonFile)
-
-	var products []parser.ProductData
-	json.Unmarshal(byteArray, &products)
-
-	fcn := "AddPROData"
-
-	for _, data := range products {
-		key := uuid.New().String()
-		accId := fmt.Sprint(data.GetId())
-
-		dataJson, _ := json.Marshal(data)
-		dataString := string(dataJson)
-
-		fmt.Println(dataString)
-		byteArgs := [][]byte{
-			[]byte(key),
-			[]byte(accId),
-			[]byte(dataString),
-		}
-		SubmitTransaction(client, byteArgs, fcn)
-	}
-}
-
-func SubmitRecallData(client *clientChannel.Client, args string, objectType parser.ObjectType) {
-	jsonFile, err := os.Open(args)
-	if err != nil {
-		panic(err)
-	}
-	defer jsonFile.Close()
-	byteArray, _ := ioutil.ReadAll(jsonFile)
-
-	var recalls []parser.RecallData
-	json.Unmarshal(byteArray, &recalls)
-
-	fcn := "AddRECData"
-
-	for _, data := range recalls {
-		key := uuid.New().String()
-		accId := fmt.Sprint(data.GetId())
-
-		dataJson, _ := json.Marshal(data)
-		dataString := string(dataJson)
-
-		fmt.Println(dataString)
-		byteArgs := [][]byte{
-			[]byte(key),
-			[]byte(accId),
-			[]byte(dataString),
-		}
-		SubmitTransaction(client, byteArgs, fcn)
-	}
-}
-
-func SubmitImportData(client *clientChannel.Client, args string, objectType parser.ObjectType) {
-	jsonFile, err := os.Open(args)
-	if err != nil {
-		panic(err)
-	}
-	defer jsonFile.Close()
-	byteArray, _ := ioutil.ReadAll(jsonFile)
-
-	var imports []parser.ImportData
-	json.Unmarshal(byteArray, &imports)
-
-	fcn := "AddRECData"
-
-	for _, data := range imports {
-		key := uuid.New().String()
-		accId := fmt.Sprint(data.GetId())
-
-		dataJson, _ := json.Marshal(data)
-		dataString := string(dataJson)
-
-		fmt.Println(dataString)
-		byteArgs := [][]byte{
-			[]byte(key),
-			[]byte(accId),
-			[]byte(dataString),
-		}
 		SubmitTransaction(client, byteArgs, fcn)
 	}
 }

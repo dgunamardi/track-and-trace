@@ -176,7 +176,6 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 					/*
 						InsertToDB(kvWrites, dbClient, collectionIdx)
 					*/
-					//InsertToDB(kvWrites, nil, collectionIdx)
 				}
 			}
 		}

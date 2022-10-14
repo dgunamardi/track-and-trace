@@ -13,8 +13,8 @@ import (
 )
 
 func main() {
-	path := "..\\data-samples\\recall.json"
-	pathcsv := "..\\data-samples\\generate_import_data.csv"
+	path := "..\\data-samples\\product.json"
+	//pathcsv := "..\\data-samples\\generate_import_data.csv"
 
 	fileExt := filepath.Ext(path)
 	fmt.Println(fileExt)
@@ -31,9 +31,14 @@ func main() {
 
 	//fmt.Println(recalls)
 
-	dataset := parser.JSONToData(path, parser.RECALL_DATA)
-	fmt.Println(dataset)
+	//dataset := parser.JSONToData(path, parser.RECALL_DATA)
+	//fmt.Println(dataset)
 
-	datasetcsv := parser.CSVToData(pathcsv, parser.IMPORT_DATA)
-	fmt.Println(datasetcsv)
+	//datasetcsv := parser.CSVToData(pathcsv, parser.IMPORT_DATA)
+	//fmt.Println(datasetcsv)
+
+	dset := parser.JSONToData(path, parser.PRODUCT_DATA)
+	//p := &parser.ProductData{}
+
+	fmt.Println(dset[0])
 }
