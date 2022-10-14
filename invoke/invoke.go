@@ -64,7 +64,7 @@ func Invoke(channelProvider context.ChannelProvider, args []string) {
 
 func SubmitData(client *clientChannel.Client, args string, objectType parser.ObjectType) {
 	fileExt := filepath.Ext(args)
-	dataset []parser.ObjectData
+	var dataset []parser.ObjectData
 	switch fileExt {
 	case ".csv":
 		dataset = parser.CSVToData(args, objectType)
