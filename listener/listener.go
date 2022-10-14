@@ -172,7 +172,7 @@ func ListenToBlockEvents(channelProvider context.ChannelProvider) {
 						continue
 					}
 					kvWrites := nsRWSet.RWSet.KVWrites
-					log.Println(kvWrites)
+					_ = kvWrites
 					/*
 						InsertToDB(kvWrites, dbClient, collectionIdx)
 					*/
