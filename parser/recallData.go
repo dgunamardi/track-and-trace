@@ -22,6 +22,7 @@ type RecallData struct {
 	GTIN        string       `bson:"gtin" json:"gtin"`
 	ProductName string       `bson:"product_name" json:"product_name"`
 	ExpiryDates []ExpiryDate `bson:"expiry_date" json:"expiry_date"`
+	Cause       []string     `bson:"cause" json:"cause"`
 	RiskLevel   int          `bson:"risk_level" json:"risk_level"`
 	Company     Company      `bson:"company" json:"company"`
 	Information []Info       `bson:"info" json:"info"`
