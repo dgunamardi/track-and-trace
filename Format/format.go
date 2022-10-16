@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	path := "..\\data-samples\\product.json"
+	path := "..\\data-samples\\recall.json"
 	//pathcsv := "..\\data-samples\\generate_import_data.csv"
 
 	fileExt := filepath.Ext(path)
@@ -29,7 +29,7 @@ func main() {
 	var recalls []parser.RecallData
 	json.Unmarshal(byteArray, &recalls)
 
-	//fmt.Println(recalls)
+	fmt.Println(recalls)
 
 	//dataset := parser.JSONToData(path, parser.RECALL_DATA)
 	//fmt.Println(dataset)
@@ -37,7 +37,7 @@ func main() {
 	//datasetcsv := parser.CSVToData(pathcsv, parser.IMPORT_DATA)
 	//fmt.Println(datasetcsv)
 
-	dset := parser.JSONToData(path, parser.PRODUCT_DATA)
+	dset := parser.JSONToData(path, parser.RECALL_DATA)
 	//p := &parser.ProductData{}
 
 	fmt.Println(dset[0])
