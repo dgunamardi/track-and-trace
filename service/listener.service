@@ -1,0 +1,15 @@
+[Unit]
+Description=Hyperledger Fabric x BCS listener service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/foodsafety
+User=foodsafety
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+ExecStart=/home/foodsafety/go/bin/listener
+
+[Install]
+WantedBy=multi-user.target
